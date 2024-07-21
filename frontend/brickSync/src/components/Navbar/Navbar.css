@@ -1,0 +1,52 @@
+.navbar{
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 140px;
+}
+
+.navbar .logo{
+    width: 170px;
+}
+
+.navbar-menu{
+    display: flex;
+    list-style: none;
+    gap: 48px;
+    color: #eee;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.navbar-right{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar button{
+    font-weight: 400;
+}
+
+.navbar .btn-signIn{
+    background: transparent;
+    font-size: 14px;
+    color: #eee;
+    border: 1px solid #eee;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.navbar .btn-signUp{
+    background: #F8BD00;
+    font-size: 14px;
+    color: #eee;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}

@@ -1,0 +1,47 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.header h1{
+    color: #eee;
+    font-size: 72px;
+    max-width: 661px;
+    margin: auto;
+    font-weight: 600;
+    line-height: 75px;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+}
+
+.header span{
+    color: #F8BD00;
+}
+
+.header p{
+    color: #eee;
+    font-size: 18px;
+    max-width: 488px;
+    font-weight: 400;
+    margin: auto;
+    line-height: 26px;
+}
+
+.container button{
+    margin-top: 60px;
+    background: #F8BD00;
+    font-size: 14px;
+    color: #eee;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.header-img img {
+    margin-top: 60px;
+    width: 100%;
+    border-radius: 10px;
+}
