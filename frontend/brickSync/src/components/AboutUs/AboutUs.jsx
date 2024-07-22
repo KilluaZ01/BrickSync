@@ -4,7 +4,7 @@ import { assets } from "../../assets/assets";
 
 const AboutUs = () => {
   return (
-    <div className="container">
+    <div className="container-aboutUs">
       <h1 className="h1-aboutUs">About us</h1>
       <div className="aboutUs-top">
         <p>

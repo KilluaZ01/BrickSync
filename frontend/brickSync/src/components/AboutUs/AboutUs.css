@@ -1,4 +1,4 @@
-.container{
+.container-aboutUs{
     display: flex;
     flex-direction: column;
     margin-top: 100px;
@@ -6,7 +6,11 @@
 
 .h1-aboutUs{
     font-size: 72px;
+    text-align: center;
     color: #eee;
+    font-weight: 600;
+
+    letter-spacing: -1px;
 }
 
 .aboutUs-top p, .aboutUs-bot p{

@@ -1,0 +1,53 @@
+/* Services.css */
+
+.carousel-container {
+    width: 100%; /* Container width to be 100% of its parent */
+    height: 420px;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+  }
+  
+  .carousel-wrapper {
+    display: flex;
+    transition: transform 1s ease-in-out;
+  }
+  
+  .carousel-wrapper.no-transition {
+    transition: none;
+  }
+  
+  .carousel-card {
+    min-width: 33.33%; /* Each card width to fit three cards in the container */
+    height: 420px;
+    background-color: #2e394b;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .carousel-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .carousel-content {
+    text-align: center;
+  }
+  
+  .carousel-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .carousel-content p {
+    font-size: 1rem;
+  }
+  
