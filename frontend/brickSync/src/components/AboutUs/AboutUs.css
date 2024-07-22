@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.h1-aboutUs{
+    font-size: 72px;
+    color: #eee;
+}
+
+.aboutUs-top p, .aboutUs-bot p{
+    width: 500px;
+    color: #eee;
+    text-align: left;
+    line-height: 25px;
+    letter-spacing: 0.2px;
+}
+
+.aboutUs-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.aboutUs-bot{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.aboutUs-bot img, .aboutUs-top img{
+    width: 300px;
+}
