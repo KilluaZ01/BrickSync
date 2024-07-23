@@ -1,0 +1,34 @@
+.bgLogin-left{
+    background: rgb(57,62,70);
+    background: linear-gradient(90deg, rgba(57,62,70,1) 0%, rgba(34,40,49,1) 100%);
+}
+
+.bgLogin-right{
+    background-color: rgba(34,40,49,1);
+}
+
+.bgLogin-left img{
+    width: 250px;
+}
+
+.bgLogin-left h3{
+    color: hsl(0, 0%, 93%);
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.bgLogin-right .forgot{
+    color: hsla(0, 0%, 93%, 0.5);
+}
+
+.bgLogin-right .forgot{
+    color: hsla(0, 0%, 93%, 0.5);
+}
+
+.bgLogin-right .login-btn{
+    width: 100%;
+    background-color: #B1B500;
+    color: #eee;
+    border-radius: 10px;
+    padding: 0.6rem;    
+}

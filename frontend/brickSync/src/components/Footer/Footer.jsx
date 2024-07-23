@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="footer-content-center">
           <h3>Get Started</h3>
           <ul>
-            <a href="#home">Home</a>
+            <a href="#nav">Home</a>
             <a href="#aboutUs">About us</a>
             <a href="#services">Services</a>
             <a href="#contact">Contact us</a>

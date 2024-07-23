@@ -5,7 +5,7 @@ import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <div className="navbar">
+    <div className="navbar" id="nav">
       <Link to="/">
         <img src={assets.logo_1} className="logo" alt="logo" />
       </Link>
@@ -15,8 +15,12 @@ const Navbar = () => {
         <a href="#contactUs">Contact us</a>
       </ul>
       <div className="navbar-right">
-        <button className="btn-signIn">Sign in</button>
-        <button className="btn-signUp">Get started</button>
+        <Link to={"/login"}>
+          <button className="btn-signIn">Sign in</button>
+        </Link>
+        <Link to="/signup">
+          <button className="btn-signUp">Get started</button>
+        </Link>
       </div>
     </div>
   );

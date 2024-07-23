@@ -18,17 +18,17 @@
 }
 
 .bgRegister-right .forgot{
-    color: hsla(0, 0%, 93%, 0.5);
+    color: #ededed80;
 }
 
 .bgRegister-right .forgot{
     color: hsla(0, 0%, 93%, 0.5);
 }
 
-.bgRegister-right .login-btn{
+.bgRegister-right .signup-btn{
     width: 100%;
     background-color: #B1B500;
     color: #eee;
     border-radius: 10px;
-    padding: 0.5rem;    
+    padding: 0.6rem;    
 }
