@@ -9,13 +9,15 @@ import Footer from "../../components/Footer/Footer";
 const Landing = () => {
   return (
     <>
-      <div className="background">
-        <Navbar />
-        <Header />
-        <AboutUs />
-        <Services />
+      <div className="body">
+        <div className="background">
+          <Navbar />
+          <Header />
+          <AboutUs />
+          <Services />
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };

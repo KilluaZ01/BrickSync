@@ -10,9 +10,9 @@ const Navbar = () => {
         <img src={assets.logo_1} className="logo" alt="logo" />
       </Link>
       <ul className="navbar-menu">
-        <a href="">About us</a>
-        <a href="">Services</a>
-        <a href="">Contact us</a>
+        <a href="#aboutUs">About us</a>
+        <a href="#services">Services</a>
+        <a href="#contactUs">Contact us</a>
       </ul>
       <div className="navbar-right">
         <button className="btn-signIn">Sign in</button>

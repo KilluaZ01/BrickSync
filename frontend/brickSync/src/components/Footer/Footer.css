@@ -32,7 +32,9 @@
     gap: 20px;
 }
 
-.footer-content-left li, .footer-content-right li, .footer-content-center li{
+.footer-content-left a, .footer-content-right a, .footer-content-center a{
+    display: flex;
+    flex-direction: column;
     list-style: none;
     font-size: 14px;
     margin-bottom: 10px;

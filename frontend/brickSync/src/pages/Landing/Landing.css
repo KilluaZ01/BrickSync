@@ -1,4 +1,4 @@
-body {
+.body {
   background: linear-gradient(180deg, rgba(34,40,49,1) 0%, rgba(206,206,206,1) 100%);
   min-height: 100vh;
   margin: 0;

@@ -3,7 +3,7 @@ import "./Header.css";
 import { assets } from "../../assets/assets";
 const Header = () => {
   return (
-    <div className="container">
+    <div className="container" id="home">
       <div className="header">
         <h1>
           Streamline <span>Your </span>Construction <span>Supply</span>

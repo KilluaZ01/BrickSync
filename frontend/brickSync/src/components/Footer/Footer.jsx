@@ -5,7 +5,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <div className="footer">
-      <div className="footer-content">
+      <div className="footer-content" id="contactUs">
         <div className="footer-content-left">
           <img src={assets.logo_1} alt="" />
           <h3>Follow us at</h3>
@@ -18,17 +18,17 @@ const Footer = () => {
         <div className="footer-content-center">
           <h3>Get Started</h3>
           <ul>
-            <li>Home</li>
-            <li>About us</li>
-            <li>Services</li>
-            <li>Contact us</li>
+            <a href="#home">Home</a>
+            <a href="#aboutUs">About us</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact us</a>
           </ul>
         </div>
         <div className="footer-content-right">
           <h3>Contact</h3>
           <ul>
-            <li>+977-9841982132</li>
-            <li>contact@tomato.com</li>
+            <a>+977-9841982132</a>
+            <a>contact@BrickSync.com</a>
           </ul>
         </div>
       </div>
