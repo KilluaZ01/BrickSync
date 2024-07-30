@@ -2,18 +2,21 @@ import React from "react";
 import "./Login.css";
 import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Login = () => {
   return (
     <div className="flex flex-row">
       <div className="bgLogin-left flex flex-col w-[50%] h-[100vh] justify-center items-center">
-        <Link to= "/">
-        <img src={assets.logo_2} alt="" />
+        <Link to="/">
+          <img src={assets.logo_2} alt="" />
         </Link>
         <h3>Keeping everything synchronized</h3>
       </div>
       <div className="bgLogin-right flex flex-col w-[50%] h-[100vh] justify-center items-center">
-        <h1 className="text-[40px] text-[#eee] font-[600] mb-7">Welcome Back!</h1>
+        <h1 className="text-[40px] text-[#eee] font-[600] mb-7">
+          Welcome Back!
+        </h1>
         <div className="w-[400px]">
           <form action="submit">
             <input
@@ -22,7 +25,7 @@ const Login = () => {
               placeholder="Email"
               required
             />
-            
+
             <input
               type="password"
               className="mb-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -32,11 +35,13 @@ const Login = () => {
             <p className="forgot underline flex text-[12px] justify-end mb-5">
               Forgot password?
             </p>
-            <button className="login-btn mb-1 text-sm">Login</button>
+            <Link to="/dashboard">
+              <button className="login-btn mb-1 text-sm">Login</button>
+            </Link>
             <p className="forgot flex text-[12px] justify-end">
               Don't have an account?
               <Link to="/signup">
-              <span className="underline ml-[2px]">Register</span>
+                <span className="underline ml-[2px]">Register</span>
               </Link>
             </p>
             <div className="flex items-center mb-8 mt-3">
