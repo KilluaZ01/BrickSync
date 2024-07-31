@@ -17,7 +17,7 @@ const Register = () => {
           Create an Account
         </h1>
         <div className="w-[400px]">
-          <form action="submit">
+          <form>
             <input
               type="text"
               className="mb-3 border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -42,8 +42,10 @@ const Register = () => {
               placeholder="Confirm Password"
               required
             />
+            <Link to="/setup">
+              <button className="signup-btn mb-1 text-sm">Sign up</button>
+            </Link>
 
-            <button className="signup-btn mb-1 text-sm">Sign up</button>
             <p className="forgot flex text-[12px] justify-end">
               Already have an account?
               <Link to="/login">
