@@ -7,10 +7,10 @@ const SetupPopup = ({ setShowSetup }) => {
       <form className="place-self-center w-[600px] flex flex-col gap-[20px] px-[36px] py-[40px] rounded-[8px] bg-[#2A323D] text-[#eee]">
         <div className="flex justify-between items-center">
           <h2 className="text-[26px] font-semibold">
-            Setup <span className="text-[#F8BD00]">Business</span>
+            Setup <span className="text-[#B1B500]">Business</span>
           </h2>
           <IoClose
-            className="text-[26px]"
+            className="text-[26px] text-[#eee]"
             onClick={() => setShowSetup(false)}
           />
         </div>
@@ -28,17 +28,20 @@ const SetupPopup = ({ setShowSetup }) => {
             required
           />
           <h2 className="text-lg">Business Code</h2>
+          <button className="flex flex-row justify-center gap-3 items-center text-sm w-[200px] p-[0.6rem] bg-[#000]  rounded-[10px]">
+            Generate Code
+          </button>
           <p className="text-xs text-[#eeeeee90]">
             This code enables other users to join the business.
-            <span className="text-[#eee]">
-              {" "}
+            <span className="text-[#eee] ml-1">
               Make sure you COPY the generated code!
             </span>
           </p>
         </div>
-        <div>
-          <button>Done</button>
-          <button>Cancel</button>
+        <div className="flex justify-center">
+          <button className="flex flex-row justify-center gap-3 items-center text-sm w-[200px] p-[0.6rem] bg-[#B1B500]  rounded-[10px] text-[#eee]">
+            Done
+          </button>
         </div>
       </form>
     </div>
