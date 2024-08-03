@@ -14,8 +14,8 @@ const App = () => {
 
   return (
     <div className="app">
-      {showSetup ? <SetupPopup /> : <></>}
-      {showJoin ? <JoinPopup /> : <></>}
+      {showSetup ? <SetupPopup setShowSetup={setShowSetup} /> : <></>}
+      {showJoin ? <JoinPopup setShowJoin={setShowJoin} /> : <></>}
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
