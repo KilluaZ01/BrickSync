@@ -1,5 +1,6 @@
 import React from "react";
 import { IoClose } from "react-icons/io5";
+import { FaRegCopy } from "react-icons/fa";
 
 const SetupPopup = ({ setShowSetup }) => {
   return (
@@ -15,31 +16,36 @@ const SetupPopup = ({ setShowSetup }) => {
           />
         </div>
         <div>
+          <h3 className="mb-1">Business Name</h3>
           <input
-            className="mb-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             type="text"
-            placeholder="Your Business Name"
+            placeholder="Enter Business Name"
             required
           />
+          <h3 className="mb-1">Business Location</h3>
           <input
             type="text"
-            className="mb-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Your Business Location"
+            className="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter Business Location"
             required
           />
-          <h2 className="text-lg">Business Code</h2>
-          <button className="flex flex-row justify-center gap-3 items-center text-sm w-[200px] p-[0.6rem] bg-[#000]  rounded-[10px]">
-            Generate Code
-          </button>
+          <h3 className="mb-1">Business Key</h3>
+          <div className="flex flex-row items-center gap-5 mb-1">
+            <button className="flex flex-row justify-center gap-3 items-center text-sm w-[200px] p-[0.6rem] bg-[#000]  rounded-[10px]">
+              Generate Key
+            </button>
+            <FaRegCopy className="text-[#eee]" />
+          </div>
           <p className="text-xs text-[#eeeeee90]">
-            This code enables other users to join the business.
+            This Key enables other users to join the business.
             <span className="text-[#eee] ml-1">
-              Make sure you COPY the generated code!
+              Make sure you COPY the generated key!
             </span>
           </p>
         </div>
         <div className="flex justify-center">
-          <button className="flex flex-row justify-center gap-3 items-center text-sm w-[200px] p-[0.6rem] bg-[#B1B500]  rounded-[10px] text-[#eee]">
+          <button className="flex flex-row justify-center gap-3 items-center text-sm w-full p-[0.6rem] bg-[#B1B500]  rounded-[10px] text-[#eee]">
             Done
           </button>
         </div>
