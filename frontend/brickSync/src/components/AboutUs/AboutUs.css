@@ -9,7 +9,6 @@
     text-align: center;
     color: #eee;
     font-weight: 600;
-
     letter-spacing: -1px;
 }
 
@@ -26,7 +25,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .aboutUs-bot{

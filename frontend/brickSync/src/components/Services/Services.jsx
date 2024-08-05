@@ -38,40 +38,57 @@ const images = [
 
 const Services = () => {
   return (
-    <Swiper
-      spaceBetween={30}
-      slidesPerView={2}
-      centeredSlides={true}
-      loop={true}
-      autoplay={{
-        delay: 3000, // 3 seconds delay
-        disableOnInteraction: false,
-      }}
-      modules={[Autoplay]} // Register Autoplay module
-      className="relative h-screen" // Tailwind class for height
-    >
-      {images.map((image, index) => (
-        <SwiperSlide
-          key={index}
-          className="flex items-center justify-center relative transition-transform duration-300"
-          style={{ transform: "scale(0.8)" }} // Default size for side slides
-        >
-          <div className="flex flex-col w-full h-auto bg-[#eee] rounded-lg shadow-lg overflow-hidden">
-            <div className=" bg-[#2E394B] text-[#F8BD00] text-center p-4 rounded-t-lg">
-              <p className="text-[26px] font-semibold">{image.title}</p>
+    <div id="services">
+      <h1 className="text-[48px] md:text-[72px] text-center text-[#eee] font-semibold tracking-tight mt-[100px]">
+        Our Services
+      </h1>
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={1} // Default slides per view
+        breakpoints={{
+          // Adjust slides per view based on screen width
+          640: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        }}
+        centeredSlides={true}
+        loop={true}
+        autoplay={{
+          delay: 2000, // 3 seconds delay
+          disableOnInteraction: false,
+        }}
+        modules={[Autoplay]} // Register Autoplay module
+        className="relative h-auto mt-5" // Tailwind class for height
+      >
+        {images.map((image, index) => (
+          <SwiperSlide
+            key={index}
+            className="flex items-center justify-center relative transition-transform duration-300"
+            style={{ transform: "scale(0.8)" }} // Default size for side slides
+          >
+            <div className="flex flex-col w-auto h-auto bg-[#eee] rounded-lg shadow-lg overflow-hidden">
+              <div className="bg-[#2E394B] text-[#F8BD00] text-center p-5 rounded-t-lg">
+                <p className="text-[24px] font-semibold">{image.title}</p>
+              </div>
+              <img
+                src={image.src}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-auto object-cover"
+              />
+              <div className="bg-[#2E394B] text-[#eee] text-center p-4 rounded-b-lg">
+                <p className="text-md font-medium">{image.description}</p>
+              </div>
             </div>
-            <img
-              src={image.src}
-              alt={`Slide ${index + 1}`}
-              className="w-full h- auto object-cover"
-            />
-            <div className=" bg-[#2E394B] text-[#eee] text-center p-4 rounded-b-lg">
-              <p className="text-md font-medium">{image.description}</p>
-            </div>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 
