@@ -73,7 +73,7 @@ const Services = () => {
             style={{ transform: "scale(0.8)" }} // Default size for side slides
           >
             <div className="flex flex-col w-auto h-auto bg-[#eee] rounded-lg shadow-lg overflow-hidden">
-              <div className="bg-[#2E394B] text-[#F8BD00] text-center p-5 rounded-t-lg">
+              <div className="bg-[#2E394B] text-[#eee] text-center p-5 rounded-t-lg">
                 <p className="text-[24px] font-semibold">{image.title}</p>
               </div>
               <img
