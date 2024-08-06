@@ -1,55 +1,18 @@
 import React from "react";
 import { assets } from "../assets/assets";
-import { MdAnalytics, MdDashboard, MdSettings } from "react-icons/md"; // Importing MdSettings icon
-import { FaLocationDot } from "react-icons/fa6";
-import { FaBoxesStacked } from "react-icons/fa6";
-import { FaHistory, FaTruck } from "react-icons/fa";
-import { RiTeamFill } from "react-icons/ri";
+import Default_pfp from "../assets/Default_pfp.jpg";
 
 const Dashboard_Nav = () => {
   return (
-    <div className="h-full p-2 flex-col gap-2 text-white flex">
-      <div className="bg-[#262D37] w-full h-[10%] rounded flex ">
-        <div className="flex items-center pl-6">
-          <img className="w-[80px]" src={assets.logo_1} alt="" />
-        </div>
-      </div>
-      <div className="bg-[#262D37] h-[90%] w-[20%] rounded gap-3 pl-6 py-7 flex flex-col text-sm font-medium text-[#C5C6C8]">
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <MdDashboard />
-          <p>Dashboard</p>
-        </div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <FaLocationDot />
-          <p>Warehouses</p>
-        </div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <FaBoxesStacked />
-          <p>Stock</p>
-        </div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <FaTruck />
-          <p>Vehicles</p>
-        </div>
-        <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <MdAnalytics />
-          <p>Report</p>
-        </div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <FaHistory />
-          <p>History</p>
-        </div>
-        <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <RiTeamFill />
-          <p>Employees</p>
-        </div>
-        <div className="flex-grow"></div>
-        <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
-        <div className="flex flex-row gap-4 items-center cursor-pointer">
-          <MdSettings />
-          <p>Settings</p>
+    <div className="w-full h-[10%] p-2">
+      <div className="bg-[#262D37] w-full h-full rounded flex items-center justify-between px-6">
+        <img className="w-[80px]" src={assets.logo_1} alt="" />
+        <div className="flex flex-row items-center gap-4 cursor-pointer">
+          <img className="rounded-full h-[25px]" src={Default_pfp} alt="" />
+          <div className="flex flex-col">
+            <p className="text-xs font-regular text-[#eee]">Arik Rai</p>
+            <p className="text-[10px] font-regular text-[#C5C6C8]">Admin</p>
+          </div>
         </div>
       </div>
     </div>
