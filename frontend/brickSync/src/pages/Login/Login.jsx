@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { assets } from "../../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
 
 const Login = () => {
+  const [formData, setFormData] = useState({});
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(true);
+        return;
+      }
+      navigate("/setup");
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
   return (
     <div className="flex flex-row">
       <div className="bgLogin-left flex flex-col w-[50%] h-[100vh] justify-center items-center">
@@ -18,31 +51,37 @@ const Login = () => {
           Welcome Back!
         </h1>
         <div className="w-[400px]">
-          <form action="submit">
+          <form onSubmit={handleSubmit}>
             <input
               type="email"
               className="mb-3 border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Email"
               required
+              id="email"
+              onChange={handleChange}
             />
-
             <input
               type="password"
               className="mb-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Password"
               required
+              id="password"
+              onChange={handleChange}
             />
             <p className="forgot underline flex text-[12px] justify-end mb-5">
               Forgot password?
             </p>
-            <Link to="/dashboard">
-              <button className="login-btn mb-1 text-sm">Login</button>
-            </Link>
+            <button disabled={loading} className="login-btn mb-1 text-sm">
+              {loading ? "Loading" : "Login"}
+            </button>
             <p className="forgot flex text-[12px] justify-end">
               Don't have an account?
               <Link to="/signup">
                 <span className="underline ml-[2px]">Register</span>
               </Link>
+            </p>
+            <p className="text-orange-300 text-sm">
+              {error && "Something went wrong!"}
             </p>
             <div className="flex items-center mb-8 mt-3">
               <div className="flex-grow border-t border-[#ededed80] mx-4px"></div>

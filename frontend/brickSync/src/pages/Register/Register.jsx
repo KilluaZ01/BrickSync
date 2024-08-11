@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { assets } from "../../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -29,6 +30,7 @@ const Register = () => {
         setError(true);
         return;
       }
+      navigate("/login");
     } catch (error) {
       setLoading(false);
       setError(true);
