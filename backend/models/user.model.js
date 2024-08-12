@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,6 +15,19 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: ["admin", "employee"],
+      default: "employee",
+    },
+    business: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Business",
+    },
+    firstLogin: {
+      type: Boolean,
+      default: true,
     },
   },
   { timestamps: true }

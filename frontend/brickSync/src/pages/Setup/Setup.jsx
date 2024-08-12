@@ -1,32 +1,31 @@
 import React from "react";
 import { assets } from "../../assets/assets";
-import { HiUser } from "react-icons/hi";
-import { HiUserGroup } from "react-icons/hi";
+import { HiUser, HiUserGroup } from "react-icons/hi";
 
 const Setup = ({ setShowSetup, setShowJoin }) => {
   return (
-    <div className="bg-[linear-gradient(90deg,rgba(57,62,70,1)_0%,rgba(34,40,49,1)_100%)] flex flex-col justify-center items-center h-screen gap-[60px]">
+    <div className="bg-gradient-to-r from-gray-700 to-gray-800 flex flex-col justify-center items-center h-screen gap-14">
       <div className="flex flex-col items-center">
-        <img className="w-[200px]" src={assets.logo_2} alt="" />
-        <h3 className="text-[16px] text-[#eee]">
+        <img className="w-48" src={assets.logo_2} alt="Logo" />
+        <h3 className="text-lg text-gray-300">
           Keeping everything synchronized
         </h3>
       </div>
-      <div className="flex flex-row items-center gap-[60px]">
+      <div className="flex flex-row items-center gap-14">
         <button
           onClick={() => setShowSetup(true)}
-          className="group flex flex-col text-[#eee] text-[30px] font-semibold max-w-[190px] items-center text-center transition duration-300 ease-in-out transform hover:scale-105"
+          className="group flex flex-col text-gray-300 text-2xl font-semibold items-center transition-transform duration-300 ease-in-out transform hover:scale-105"
         >
-          <HiUser className="w-[60px] h-auto text-[#eee] group-hover:text-[#F8BD00]" />
-          <span className="group-hover:text-[#F8BD00]">Setup a Business</span>
+          <HiUser className="w-16 h-auto group-hover:text-yellow-400" />
+          <span className="group-hover:text-yellow-400">Setup a Business</span>
         </button>
-        <div className="inline-block h-[250px] min-h-[1em] w-[1px] self-stretch bg-[hsla(0,0%,93%,0.8)]"></div>
+        <div className="h-64 w-px bg-gray-300"></div>
         <button
           onClick={() => setShowJoin(true)}
-          className="group flex flex-col text-[#eee] text-[30px] font-semibold max-w-[190px] items-center text-center transition duration-300 ease-in-out transform hover:scale-105"
+          className="group flex flex-col text-gray-300 text-2xl font-semibold items-center transition-transform duration-300 ease-in-out transform hover:scale-105"
         >
-          <HiUserGroup className="w-[60px] h-auto text-[#eee] group-hover:text-[#F8BD00]" />
-          <span className="group-hover:text-[#F8BD00]">Join a Business</span>
+          <HiUserGroup className="w-16 h-auto group-hover:text-yellow-400" />
+          <span className="group-hover:text-yellow-400">Join a Business</span>
         </button>
       </div>
     </div>
