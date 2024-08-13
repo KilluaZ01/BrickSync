@@ -16,19 +16,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ["admin", "employee"],
-      default: "employee",
-    },
-    business: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Business",
-    },
-    firstLogin: {
-      type: Boolean,
-      default: true,
-    },
   },
   { timestamps: true }
 );
