@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Register.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../../components/OAuth";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
@@ -98,10 +99,7 @@ const Register = () => {
               <img className="w-5" src={assets.facebook_icon1} alt="" />
               Sign Up with Facebook
             </button>
-            <button className="flex flex-row justify-center gap-3 items-center text-sm w-full p-[0.6rem] bg-[#fff]  rounded-[10px]">
-              <img className="w-4" src={assets.google_icon} alt="" />
-              Sign Up with Google
-            </button>
+            <OAuth />
           </form>
         </div>
       </div>
