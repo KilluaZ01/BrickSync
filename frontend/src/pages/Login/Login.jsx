@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import "./Login.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -17,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -25,16 +30,18 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
-      setLoading(false);
+
       if (data.success === false) {
-        setError(true);
+        const data = await res.json();
+        dispatch(signInFailure(data.message));
         return;
       }
-      navigate("/setup");
+      dispatch(signInSuccess(data));
+      navigate("/dashboard");
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      dispatch(signInFailure(error));
     }
   };
 
@@ -81,7 +88,7 @@ const Login = () => {
               </Link>
             </p>
             <p className="text-orange-300 text-sm">
-              {error && "Something went wrong!"}
+              {error ? error || "Something went wrong!" : ""}
             </p>
             <div className="flex items-center mb-8 mt-3">
               <div className="flex-grow border-t border-[#ededed80] mx-4px"></div>
