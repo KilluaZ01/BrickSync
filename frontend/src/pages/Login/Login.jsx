@@ -88,9 +88,6 @@ const Login = () => {
                 <span className="underline ml-[2px]">Register</span>
               </Link>
             </p>
-            <p className="text-orange-300 text-sm">
-              {error ? error || "Something went wrong!" : ""}
-            </p>
             <div className="flex items-center mb-8 mt-3">
               <div className="flex-grow border-t border-[#ededed80] mx-4px"></div>
               <p className="forgot text-[12px] text-center mx-4">

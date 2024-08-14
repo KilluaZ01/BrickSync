@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-import { signInSuccess } from "../redux/user/userSlice";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -45,43 +44,35 @@ export const signin = async (req, res, next) => {
 
 export const google = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      const { password: hashedPassword, ...rest } = user._doc;
-      const expiryDate = new Date(Date.now() + 3600000);
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-          expires: expiryDate,
-        })
-        .status(200)
-        .json(rest);
-    } else {
-      const generatedPassword =
-        Math.random().toString(36).slice(-8) +
-        Math.random().toString(36).slice(-8);
-      const hashedPassword = bcryptjs.hashSync((generatedPassword, 10));
-      const newUser = new User({
+    let user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      const generatedPassword = Math.random().toString(36).slice(-16);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+      user = new User({
         username:
           req.body.name.split(" ").join("").toLowerCase() +
           Math.random().toString(36).slice(-4),
         email: req.body.email,
         password: hashedPassword,
         profilePicture: req.body.photo,
+        firstLogin: true, // Mark this as the first login
       });
-      await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      const { password: hashedPassword2, ...rest } = newUser._doc;
-      const expiryDate = new Date(Date.now() + 3600000);
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-          expires: expiryDate,
-        })
-        .status(200)
-        .json(rest);
+      await user.save();
     }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const { password, ...rest } = user._doc;
+    const expiryDate = new Date(Date.now() + 3600000);
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        expires: expiryDate,
+        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      })
+      .status(200)
+      .json(rest);
   } catch (error) {
     next(error);
   }
