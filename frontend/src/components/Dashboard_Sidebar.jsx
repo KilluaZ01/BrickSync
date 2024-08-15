@@ -1,5 +1,5 @@
 import React from "react";
-import { MdAnalytics, MdDashboard, MdSettings } from "react-icons/md";
+import { MdAnalytics, MdDashboard, MdLogout, MdSettings } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaBoxesStacked } from "react-icons/fa6";
 import { FaHistory, FaTruck } from "react-icons/fa";
@@ -41,8 +41,8 @@ const Dashboard_Sidebar = () => {
       <div className="flex-grow"></div>
       <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
       <div className="flex flex-row gap-4 items-center cursor-pointer">
-        <MdSettings />
-        <p>Settings</p>
+        <MdLogout />
+        <p>Sign out</p>
       </div>
     </div>
   );

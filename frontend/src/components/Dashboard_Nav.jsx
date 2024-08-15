@@ -9,10 +9,12 @@ const Dashboard_Nav = () => {
   return (
     <div className="w-full h-[10%] p-2">
       <div className="bg-[#262D37] w-full h-full rounded flex items-center justify-between px-6">
-        <img className="w-[80px]" src={assets.logo_1} alt="" />
+        <Link to="/Dashboard">
+          <img className="w-[80px]" src={assets.logo_1} alt="" />
+        </Link>
         <div className="flex flex-row items-center gap-4 cursor-pointer">
           <img
-            className="rounded-full h-[25px] object-cover"
+            className="rounded-full h-[25px] w-[25px] object-cover"
             src={currentUser.profilePicture}
           />
 

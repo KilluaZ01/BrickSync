@@ -64,13 +64,13 @@ const Services = () => {
           disableOnInteraction: false,
         }}
         modules={[Autoplay]} // Register Autoplay module
-        className="relative h-auto mt-5" // Tailwind class for height
+        className="relative h-auto mt-5"
       >
         {images.map((image, index) => (
           <SwiperSlide
             key={index}
             className="flex items-center justify-center relative transition-transform duration-300"
-            style={{ transform: "scale(0.8)" }} // Default size for side slides
+            style={{ transform: "scale(0.8)" }}
           >
             <div className="flex flex-col w-auto h-auto bg-[#eee] rounded-lg shadow-lg overflow-hidden">
               <div className="bg-[#2E394B] text-[#eee] text-center p-5 rounded-t-lg">
