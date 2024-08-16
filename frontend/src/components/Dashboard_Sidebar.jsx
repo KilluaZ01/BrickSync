@@ -5,7 +5,24 @@ import { FaBoxesStacked } from "react-icons/fa6";
 import { FaHistory, FaTruck } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 
+import { signOut } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const Dashboard_Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await fetch("api/auth/signout");
+      dispatch(signOut());
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-[#262D37] h-full w-[20%] rounded gap-3 pl-6 py-7 flex flex-col text-sm font-medium text-[#C5C6C8]">
       <div className="flex flex-row gap-4 items-center cursor-pointer">
@@ -42,7 +59,7 @@ const Dashboard_Sidebar = () => {
       <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
       <div className="flex flex-row gap-4 items-center cursor-pointer">
         <MdLogout />
-        <p>Sign out</p>
+        <p onClick={handleSignOut}>Sign out</p>
       </div>
     </div>
   );
