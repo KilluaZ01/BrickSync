@@ -11,7 +11,7 @@ const Display = () => {
   const activePage = useSelector((state) => state.navigation.activePage); // Get the active page from Redux
 
   return (
-    <div className="bg-[#262D37] h-full w-[80%] rounded p-4 text-white">
+    <div className="bg-[#262D37] h-full w-[80%] rounded text-white">
       {activePage === "Dashboard" && <Display_Dashboard />}
       {activePage === "Inventory" && <Display_Inventory />}
       {activePage === "Product" && <Display_Product />}
