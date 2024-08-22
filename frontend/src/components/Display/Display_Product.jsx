@@ -1,11 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Display_Product = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userProducts, setUserProducts] = useState([]);
+  const [showMore, setShowMore] = useState(true);
+
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          `/api/products/getproducts?userId=${currentUser._id}`
+        );
+        const data = await res.json();
+        if (res.ok) {
+          setUserProducts(data.products);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    if (currentUser) {
+      fetchProducts();
+    }
+  }, [currentUser._id]);
+
+  const handleShowMore = async () => {
+    const startIndex = userProducts.length;
+    try {
+      const res = await fetch(
+        `/api/products/getproducts?userId=${currentUser._id}&startIndex=${startIndex}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUserProducts((prev) => [...prev, ...data.products]);
+        if (data.products.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -44,8 +87,8 @@ const Display_Product = () => {
   };
 
   return (
-    <div className="px-6 py-7">
-      <div className="flex justify-between">
+    <div className="px-6 py-7 flex flex-col">
+      <div className="flex flex-row justify-between">
         <div>
           <h1 className="font-semibold text-2xl">Products</h1>
         </div>
@@ -63,7 +106,6 @@ const Display_Product = () => {
           </button>
         </div>
       </div>
-
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-[#222831] p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -117,7 +159,7 @@ const Display_Product = () => {
                 <button
                   type="submit"
                   className="bg-[#B1B500] text-white rounded-lg px-4 py-2"
-                  disabled={loading} // Disable button while loading
+                  disabled={loading}
                 >
                   {loading ? "Saving..." : "Save"}
                 </button>
@@ -130,6 +172,82 @@ const Display_Product = () => {
             </form>
           </div>
         </div>
+      )}
+      {userProducts.length > 0 ? (
+        <table className="min-w-full divide-y divide-gray-600 shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-900">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider rounded-tl-lg">
+                Date Updated
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+                Product Image
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+                Product Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+                Product Description
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+                Price
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+                Quantity
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+                Delete
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider rounded-tr-lg">
+                Edit
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-600">
+            {userProducts.map((product) => (
+              <tr key={product._id} className="bg-gray-800">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                  {new Date(product.updatedAt).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-300">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-20 h-10 object-cover bg-gray-500"
+                  />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                  {product.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                  {product.description}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                  Rs. {product.price}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                  {product.quantity}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-500 hover:underline cursor-pointer">
+                  Delete
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap hover:underline text-sm font-medium text-teal-500">
+                  <Link to={`/update-product/${product._id}`}>Edit</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No Product Available!</p>
+      )}
+      {showMore && (
+        <button
+          onClick={handleShowMore}
+          className="mt-4 text-teal-100 text-sm px-4 py-2"
+        >
+          Show More
+        </button>
       )}
     </div>
   );

@@ -19,7 +19,7 @@ export const createProduct = async (req, res, next) => {
 export const getProducts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
+    const limit = parseInt(req.query.limit) || 5;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     const query = {};
