@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.post("/create", verifyToken, createProduct);
-router.get("/", verifyToken, getProducts);
+router.get("/getproducts", verifyToken, getProducts);
 router.put("/update/:id", verifyToken, updateProduct);
 router.delete("/delete/:id", verifyToken, deleteProduct);
 

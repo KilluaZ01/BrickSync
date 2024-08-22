@@ -36,7 +36,7 @@ const Display_Product = () => {
         setError(true);
         return;
       }
-      handleClosePopup(); // Call the function here to close the popup
+      handleClosePopup();
     } catch (error) {
       setLoading(false);
       setError(true);
