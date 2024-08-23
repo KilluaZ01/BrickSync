@@ -80,14 +80,14 @@ export const updateProduct = async (req, res, next) => {
 
 // Delete a product
 export const deleteProduct = async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(
+      errorHandler(403, "Your are not allowed to delete this product")
+    );
+  }
   try {
-    const product = await Product.findById(req.params.id);
-    if (!product || product.userId.toString() !== req.user.id) {
-      return next(errorHandler(403, "You can delete only your products!"));
-    }
-
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json("Product has been deleted...");
+    await Product.findByIdAndDelete(req.params.productId);
+    res.status(200).json("The product has been deleted");
   } catch (error) {
     next(error);
   }

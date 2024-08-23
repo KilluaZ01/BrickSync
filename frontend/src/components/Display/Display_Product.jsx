@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Modal, Button } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Display_Product = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -10,6 +12,8 @@ const Display_Product = () => {
   const [loading, setLoading] = useState(false);
   const [userProducts, setUserProducts] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState("");
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -86,6 +90,28 @@ const Display_Product = () => {
     }
   };
 
+  const handleDeleteProduct = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(
+        `/api/products/delete/${productIdToDelete}/${currentUser._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUserProducts((prev) =>
+          prev.filter((product) => product._id !== productIdToDelete)
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="px-6 py-7 flex flex-col">
       <div className="flex flex-row justify-between">
@@ -137,6 +163,18 @@ const Display_Product = () => {
               </div>
               <div className="mb-4">
                 <label className="block text-[#eee] text-sm font-normal mb-2">
+                  Quantity
+                </label>
+                <input
+                  type="text"
+                  id="quantity"
+                  className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  placeholder="Enter product quantity"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-[#eee] text-sm font-normal mb-2">
                   Price
                 </label>
                 <input
@@ -174,31 +212,31 @@ const Display_Product = () => {
         </div>
       )}
       {userProducts.length > 0 ? (
-        <table className="min-w-full divide-y divide-gray-600 shadow-md rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y mt-6 divide-gray-600 shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-900">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider rounded-tl-lg">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider rounded-tl-lg">
                 Date Updated
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Product Image
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Product Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Product Description
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Quantity
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Delete
               </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-[#B1B500] uppercase tracking-wider rounded-tr-lg">
+              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500]  tracking-wider rounded-tr-lg">
                 Edit
               </th>
             </tr>
@@ -229,7 +267,14 @@ const Display_Product = () => {
                   {product.quantity}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-500 hover:underline cursor-pointer">
-                  Delete
+                  <span
+                    onClick={() => {
+                      setShowModal(true);
+                      setProductIdToDelete(product._id);
+                    }}
+                  >
+                    Delete
+                  </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap hover:underline text-sm font-medium text-teal-500">
                   <Link to={`/update-product/${product._id}`}>Edit</Link>
@@ -249,6 +294,33 @@ const Display_Product = () => {
           Show More
         </button>
       )}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this product?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button className="bg-red-600" onClick={handleDeleteProduct}>
+                Yes, I'm sure
+              </Button>
+              <Button
+                className="bg-gray-600"
+                onClick={() => setShowModal(false)}
+              >
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
