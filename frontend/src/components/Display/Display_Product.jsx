@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCurrentProduct } from "../../redux/product/productSlice";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-const Display_Product = () => {
+const Display_Product = ({ product }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
@@ -14,8 +15,13 @@ const Display_Product = () => {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState("");
+  const [productIdToEdit, setProductIdToEdit] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state) => state.user);
+  const { currentProduct } = useSelector((state) => state.product);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,6 +41,66 @@ const Display_Product = () => {
       fetchProducts();
     }
   }, [currentUser._id]);
+
+  const handleEdit = (product) => {
+    dispatch(setCurrentProduct(product));
+    setFormData({
+      name: product.name,
+      description: product.description,
+      quantity: product.quantity,
+      price: product.price,
+    });
+    setShowEditModal(true);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      let res;
+      if (productIdToEdit) {
+        res = await fetch(
+          `/api/products/update/${productIdToEdit}/${currentUser._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+      }
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(true);
+        return;
+      }
+      setUserProducts((prev) => {
+        if (productIdToEdit) {
+          return prev.map((product) =>
+            product._id === productIdToEdit
+              ? { ...product, ...formData }
+              : product
+          );
+        } else {
+          return [...prev, data.product];
+        }
+      });
+      handleClosePopup();
+      setShowEditModal(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
+  };
+
+  const handleEditClosePopup = () => {
+    setShowPopup(false);
+    setShowEditModal(false);
+    setFormData({});
+    setProductIdToEdit("");
+  };
 
   const handleShowMore = async () => {
     const startIndex = userProducts.length;
@@ -276,8 +342,15 @@ const Display_Product = () => {
                     Delete
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap hover:underline text-sm font-medium text-teal-500">
-                  <Link to={`/update-product/${product._id}`}>Edit</Link>
+                <td className="px-6 py-4 whitespace-nowrap hover:underline cursor-pointer text-sm font-medium text-teal-500">
+                  <span
+                    onClick={() => {
+                      setProductIdToEdit(product._id);
+                      handleEdit(product);
+                    }}
+                  >
+                    Edit
+                  </span>
                 </td>
               </tr>
             ))}
@@ -318,6 +391,94 @@ const Display_Product = () => {
                 No, cancel
               </Button>
             </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
+            <form onSubmit={handleEditSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-normal mb-2">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  defaultValue={currentProduct.name}
+                  id="name"
+                  className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  placeholder="Enter product name"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-normal mb-2">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  defaultValue={currentProduct.description}
+                  id="description"
+                  className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  placeholder="Enter product description"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-normal mb-2">
+                  Quantity
+                </label>
+                <input
+                  type="text"
+                  defaultValue={currentProduct.quantity}
+                  id="quantity"
+                  className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  placeholder="Enter product quantity"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-normal mb-2">
+                  Price
+                </label>
+                <input
+                  type="number"
+                  defaultValue={currentProduct.price}
+                  id="price"
+                  className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  placeholder="Enter product price"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="mr-4 bg-gray-300 text-gray-700 rounded-lg px-4 py-2"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-[#B1B500] text-white rounded-lg px-4 py-2"
+                  disabled={loading}
+                >
+                  {loading ? "Edting..." : "Edited"}
+                </Button>
+              </div>
+              {error && (
+                <p className="text-red-500 mt-2">
+                  Failed to edit product. Please try again.
+                </p>
+              )}
+            </form>
           </div>
         </Modal.Body>
       </Modal>

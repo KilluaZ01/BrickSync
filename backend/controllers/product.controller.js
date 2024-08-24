@@ -59,17 +59,21 @@ export const getProducts = async (req, res, next) => {
   }
 };
 
-// Update a product
 export const updateProduct = async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(errorHandler(401, "You can edit only your own product!"));
+  }
   try {
-    const product = await Product.findById(req.params.id);
-    if (!product || product.userId.toString() !== req.user.id) {
-      return next(errorHandler(403, "You can update only your products!"));
-    }
-
     const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
+      req.params.productId,
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          quantity: req.body.quantity,
+          price: req.body.price,
+        },
+      },
       { new: true }
     );
     res.status(200).json(updatedProduct);

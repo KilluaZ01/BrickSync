@@ -2,49 +2,28 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   products: [],
-  loading: false,
-  error: false,
+  currentProduct: null,
 };
 
 const productSlice = createSlice({
-  name: "products",
+  name: "product",
   initialState,
   reducers: {
-    fetchProductsStart: (state) => {
-      state.loading = true;
+    // Action to set the current product for editing
+    setCurrentProduct(state, action) {
+      state.currentProduct = action.payload;
     },
-    fetchProductsSuccess: (state, action) => {
-      state.products = action.payload;
-      state.loading = false;
-      state.error = false;
-    },
-    fetchProductsFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    addProduct: (state, action) => {
-      state.products.push(action.payload);
-    },
-    updateProduct: (state, action) => {
-      state.products = state.products.map((product) =>
-        product._id === action.payload._id ? action.payload : product
-      );
-    },
-    deleteProduct: (state, action) => {
-      state.products = state.products.filter(
-        (product) => product._id !== action.payload
-      );
+    // Action to update the product
+    updateProduct(state, action) {
+      const { id, data } = action.payload;
+      const index = state.products.findIndex((product) => product.id === id);
+      if (index !== -1) {
+        state.products[index] = { ...state.products[index], ...data };
+      }
     },
   },
 });
 
-export const {
-  fetchProductsStart,
-  fetchProductsSuccess,
-  fetchProductsFailure,
-  addProduct,
-  updateProduct,
-  deleteProduct,
-} = productSlice.actions;
+export const { setCurrentProduct, updateProduct } = productSlice.actions;
 
 export default productSlice.reducer;
