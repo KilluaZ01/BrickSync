@@ -6,7 +6,7 @@ import { setCurrentProduct } from "../../redux/product/productSlice";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-const Display_Product = ({ product }) => {
+const Display_Product = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);

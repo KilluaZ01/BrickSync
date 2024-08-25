@@ -1,22 +1,22 @@
-import Product from "../models/product.model.js";
+import vehicle from "../models/vehicle.model.js";
 import { errorHandler } from "../utils/error.js";
 
-// Create a new product
-export const createProduct = async (req, res, next) => {
-  const newProduct = new Product({
+// Create a new vehicle
+export const createvehicle = async (req, res, next) => {
+  const newvehicle = new vehicle({
     ...req.body,
     userId: req.user.id,
   });
   try {
-    const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    const savedvehicle = await newvehicle.save();
+    res.status(201).json(savedvehicle);
   } catch (error) {
     next(error);
   }
 };
 
-// Get all products for the current user
-export const getProducts = async (req, res, next) => {
+// Get all vehicles for the current user
+export const getvehicles = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 5;
@@ -26,16 +26,17 @@ export const getProducts = async (req, res, next) => {
     if (req.query.userId) {
       query.userId = req.query.userId;
     }
-    if (req.query.productId) {
-      query._id = req.query.productId;
+    if (req.query.vehicleId) {
+      query._id = req.query.vehicleId;
     }
 
-    const products = await Product.find(query)
+    const vehicles = await vehicle
+      .find(query)
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
 
-    const totalProducts = await Product.countDocuments(query);
+    const totalvehicles = await vehicle.countDocuments(query);
 
     const now = new Date();
     const oneMonthAgo = new Date(
@@ -44,28 +45,28 @@ export const getProducts = async (req, res, next) => {
       now.getDate()
     );
 
-    const lastMonthProducts = await Product.countDocuments({
+    const lastMonthvehicles = await vehicle.countDocuments({
       ...query,
       createdAt: { $gte: oneMonthAgo },
     });
 
     res.status(200).json({
-      products,
-      totalProducts,
-      lastMonthProducts,
+      vehicles,
+      totalvehicles,
+      lastMonthvehicles,
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const updateProduct = async (req, res, next) => {
+export const updatevehicle = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
-    return next(errorHandler(401, "You can edit only your own product!"));
+    return next(errorHandler(401, "You can edit only your own vehicle!"));
   }
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.productId,
+    const updatedvehicle = await vehicle.findByIdAndUpdate(
+      req.params.vehicleId,
       {
         $set: {
           name: req.body.name,
@@ -76,22 +77,22 @@ export const updateProduct = async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(200).json(updatedProduct);
+    res.status(200).json(updatedvehicle);
   } catch (error) {
     next(error);
   }
 };
 
-// Delete a product
-export const deleteProduct = async (req, res, next) => {
+// Delete a vehicle
+export const deletevehicle = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
     return next(
-      errorHandler(403, "Your are not allowed to delete this product")
+      errorHandler(403, "Your are not allowed to delete this vehicle")
     );
   }
   try {
-    await Product.findByIdAndDelete(req.params.productId);
-    res.status(200).json("The product has been deleted");
+    await vehicle.findByIdAndDelete(req.params.vehicleId);
+    res.status(200).json("The vehicle has been deleted");
   } catch (error) {
     next(error);
   }

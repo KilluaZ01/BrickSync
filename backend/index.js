@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import productRoutes from "./routes/product.route.js";
+import vehicleRoutes from "./routes/vehicle.route.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/vehicles", vehicleRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
