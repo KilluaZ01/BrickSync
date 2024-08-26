@@ -262,11 +262,10 @@ const Display_Vehicle = () => {
           </div>
         </div>
       )}
-
       {/* Vehicle List */}
       <div className="mt-6">
         {userVehicles.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {userVehicles.map((vehicle) => (
               <div
                 key={vehicle._id}
@@ -310,7 +309,6 @@ const Display_Vehicle = () => {
           <p className="text-[#ccc]">No vehicles found.</p>
         )}
       </div>
-
       {showMore && userVehicles.length >= 9 && (
         <div className="flex justify-center mt-6">
           <button
@@ -321,7 +319,6 @@ const Display_Vehicle = () => {
           </button>
         </div>
       )}
-
       {/* Edit Vehicle Modal */}
       <Modal show={showEditModal} onClose={handleEditClosePopup}>
         <Modal.Header>Edit Vehicle</Modal.Header>
@@ -381,7 +378,6 @@ const Display_Vehicle = () => {
           </form>
         </Modal.Body>
       </Modal>
-
       {/* Delete Confirmation Modal */}
       <Modal show={showModal} onClose={() => setShowModal(false)}>
         <Modal.Header>

@@ -65,6 +65,16 @@ const Dashboard_Sidebar = () => {
           <p>Vehicles</p>
         </div>
       </Link>
+      <Link to="/dashboard?tab=fuel">
+        <div
+          className={`flex flex-row gap-4 items-center cursor-pointer ${
+            activeItem === "Fuel" ? "text-[#F8BD00]" : ""
+          }`}
+          onClick={() => handleItemClick("Fuel")}
+        >
+          <p>Fuel</p>
+        </div>
+      </Link>
       <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
       <Link to="/dashboard?tab=report">
         <div
