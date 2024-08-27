@@ -1,12 +1,17 @@
 import { Modal, Button } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import PriceChart from "./Chart/VerticalBarChart";
+import { useSelector } from "react-redux";
 
 const FuelStatus = () => {
   const [addFuelModal, setAddFuelModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
+  const [vehicles, setVehicles] = useState([]);
+  const [fuels, setFuels] = useState([]);
+
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleAddFuel = () => {
     setAddFuelModal(true);
@@ -20,7 +25,78 @@ const FuelStatus = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleAddFuelSubmit = () => {};
+  // Fetch vehicles when the modal opens
+  useEffect(() => {
+    if (addFuelModal) {
+      const fetchVehicles = async () => {
+        try {
+          const response = await fetch(
+            `/api/vehicles/getvehicles?userId=${currentUser._id}`
+          );
+          const data = await response.json();
+          setVehicles(data.vehicles);
+        } catch (error) {
+          console.error("Error fetching vehicles", error);
+        }
+      };
+
+      fetchVehicles();
+    }
+  }, [addFuelModal, currentUser._id]);
+
+  // Fetch fuel data
+  useEffect(() => {
+    const fetchFuels = async () => {
+      try {
+        const response = await fetch(
+          `/api/fuels/getFuels?userId=${currentUser._id}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setFuels(data.fuels);
+        }
+      } catch (error) {
+        console.error("Error fetching fuels", error);
+      }
+    };
+
+    if (currentUser) {
+      fetchFuels();
+    }
+  }, [currentUser._id]);
+
+  const handleAddFuelSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const fuelData = {
+        vehicleId: formData.vehicleId,
+        fuelQuantity: formData.fuelQuantity,
+        fuelPrice: formData.fuelPrice,
+      };
+
+      const response = await fetch("/api/fuels/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fuelData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error adding fuel data");
+      }
+
+      setAddFuelModal(false);
+      setFormData({});
+    } catch (error) {
+      console.error("Error adding fuel data", error);
+      alert("Error adding fuel data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="h-full px-6 py-7 flex flex-col">
@@ -44,13 +120,37 @@ const FuelStatus = () => {
       </div>
       <div className="grid lg:grid-cols-4 lg:grid-rows-4 grid-cols-1 gap-4 h-full">
         <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-1 lg:row-span-4 col-span-1 row-span-1 flex flex-col">
-          <div className="">
-            <p className="text-sm text-[#eeeeee85]"></p>
-            <p className="text-[#eee] mb-2 text-base">2024/12/30</p>
-            <p className="text-sm text-[#eeeeee85]">Vehicle Name:</p>
-            <p className="text-sm text-[#eeeeee85]">Fuel Quantity:</p>
-            <p className="text-sm text-[#eeeeee85]">Amount Paid:</p>
-          </div>
+          {fuels.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4">
+              {fuels.map((fuel) => (
+                <div
+                  key={fuel._id}
+                  className="bg-[#333] p-4 rounded-lg shadow-lg"
+                >
+                  <div className="flex flex-col">
+                    <p className="text-sm text-[#eeeeee85]">Date:</p>
+                    <p className="text-[#eee] mb-2 text-base">
+                      {new Date(fuel.updatedAt).toLocaleDateString()}
+                    </p>
+                    <p className="text-sm text-[#eeeeee85]">Vehicle Name:</p>
+                    <p className="text-[#eee] mb-2 text-base">
+                      {fuel.vehicleId ? fuel.vehicleId.vehName : "N/A"}
+                    </p>
+                    <p className="text-sm text-[#eeeeee85]">Fuel Quantity:</p>
+                    <p className="text-[#eee] mb-2 text-base">
+                      {fuel.fuelQuantity || "N/A"}
+                    </p>
+                    <p className="text-sm text-[#eeeeee85]">Amount Paid:</p>
+                    <p className="text-[#eee] mb-2 text-base">
+                      {fuel.fuelPrice || "N/A"}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[#ccc]">No fuel records found.</p>
+          )}
         </div>
         <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-3 lg:row-span-4 col-span-1 row-span-1 hidden lg:block">
           <PriceChart />
@@ -67,14 +167,21 @@ const FuelStatus = () => {
                 <label className="block text-[#eee] text-sm font-normal mb-2">
                   Vehicle Name
                 </label>
-                <input
-                  type="text"
-                  id="vehName"
-                  value={formData.vehName || ""}
+                <select
+                  id="vehicleId"
+                  value={formData.vehicleId || ""}
                   onChange={handleChange}
                   className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
-                  placeholder="Enter vehicle name"
-                />
+                >
+                  <option value="" disabled>
+                    Select a vehicle
+                  </option>
+                  {vehicles.map((vehicle) => (
+                    <option key={vehicle._id} value={vehicle._id}>
+                      {vehicle.vehName}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-[#eee] text-sm font-normal mb-2">

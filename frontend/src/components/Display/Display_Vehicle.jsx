@@ -20,7 +20,6 @@ const Display_Vehicle = () => {
   const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state) => state.user);
-  const { currentVehicle } = useSelector((state) => state.vehicle);
 
   useEffect(() => {
     const fetchVehicles = async () => {

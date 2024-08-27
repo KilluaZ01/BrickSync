@@ -2,8 +2,13 @@ import mongoose from "mongoose";
 
 const fuelSchema = new mongoose.Schema(
   {
-    vehName: {
+    userId: {
       type: String,
+      required: true,
+    },
+    vehicleId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vehicle",
       required: true,
     },
     fuelQuantity: {
@@ -14,15 +19,9 @@ const fuelSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    vehicleId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Vehicle", // Reference to the Vehicle model
-      required: true,
-    },
   },
   { timestamps: true }
 );
 
 const Fuel = mongoose.model("Fuel", fuelSchema);
-
 export default Fuel;

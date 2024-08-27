@@ -4,21 +4,19 @@ import { errorHandler } from "../utils/error.js";
 
 // Create a new fuel entry
 export const createFuel = async (req, res, next) => {
-  const { vehName, fuelQuantity, fuelPrice } = req.body;
+  const { vehicleId, fuelQuantity, fuelPrice } = req.body;
 
   try {
     // Check if the vehicle exists
-    const vehicle = await Vehicle.findOne({ name: vehName });
+    const vehicle = await Vehicle.findById(vehicleId);
     if (!vehicle) {
       return next(errorHandler(404, "Vehicle not found"));
     }
 
     // Create a new fuel entry
     const newFuel = new Fuel({
-      vehName,
-      fuelQuantity,
-      fuelPrice,
-      vehicleId: vehicle._id, // Associate the fuel entry with the vehicle
+      ...req.body,
+      userId: req.user.id,
     });
 
     const savedFuel = await newFuel.save();
@@ -39,11 +37,16 @@ export const getFuels = async (req, res, next) => {
     if (req.query.vehicleId) {
       query.vehicleId = req.query.vehicleId;
     }
+    if (req.query.userId) {
+      query.userId = req.query.userId;
+    }
 
     const fuels = await Fuel.find(query)
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
-      .limit(limit);
+      .limit(limit)
+      .skip(startIndex)
+      .populate("vehicleId", "vehName");
 
     const totalFuels = await Fuel.countDocuments(query);
 
