@@ -4,6 +4,17 @@ import { setActivePage } from "../redux/navigation/navigationSlice"; // Import t
 import { signOut } from "../redux/user/userSlice";
 import { useNavigate, Link } from "react-router-dom";
 
+import {
+  FaBox,
+  FaChartBar,
+  FaClipboardList,
+  FaGasPump,
+  FaHistory,
+  FaSignOutAlt,
+  FaTruckPickup,
+} from "react-icons/fa";
+import { FaBoxesStacked } from "react-icons/fa6";
+
 const Dashboard_Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,6 +43,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("Dashboard")}
         >
+          <FaChartBar />
           <p>Dashboard</p>
         </div>
       </Link>
@@ -42,6 +54,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("Product")}
         >
+          <FaBox />
           <p>Product</p>
         </div>
       </Link>
@@ -52,6 +65,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("Inventory")}
         >
+          <FaBoxesStacked />
           <p>Inventory</p>
         </div>
       </Link>
@@ -62,6 +76,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("Vehicles")}
         >
+          <FaTruckPickup />
           <p>Vehicles</p>
         </div>
       </Link>
@@ -72,6 +87,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("Fuel")}
         >
+          <FaGasPump />
           <p>Fuel</p>
         </div>
       </Link>
@@ -83,6 +99,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("Report")}
         >
+          <FaClipboardList />
           <p>Report</p>
         </div>
       </Link>
@@ -93,6 +110,7 @@ const Dashboard_Sidebar = () => {
           }`}
           onClick={() => handleItemClick("History")}
         >
+          <FaHistory />
           <p>History</p>
         </div>
       </Link>
@@ -104,6 +122,7 @@ const Dashboard_Sidebar = () => {
         }`}
         onClick={handleSignOut}
       >
+        <FaSignOutAlt />
         <p>Sign out</p>
       </div>
     </div>

@@ -4,23 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
+@layer base {
     * {
-    padding: 0;
-    margin: 0;
-    font-family: Lato, sans-serif;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+        padding: 0;
+        margin: 0;
+        font-family: Lato, sans-serif;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    
 }
 
-body {
-    min-height: 100vh;
+@layer utilities{
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+   /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+  }
 }
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-}
-

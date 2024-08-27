@@ -1,8 +1,8 @@
 import { Modal, Button } from "flowbite-react";
 import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
-import PriceChart from "./Chart/VerticalBarChart";
 import { useSelector } from "react-redux";
+import TotalSpentChart from "./Chart/TotalSpentChart";
 
 const FuelStatus = () => {
   const [addFuelModal, setAddFuelModal] = useState(false);
@@ -22,7 +22,18 @@ const FuelStatus = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+
+    if (id === "vehicleId") {
+      const selectedVehicle = vehicles.find((vehicle) => vehicle._id === value);
+      setFormData({
+        ...formData,
+        vehicleId: selectedVehicle._id,
+        vehicleName: selectedVehicle.vehName,
+      });
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
   };
 
   // Fetch vehicles when the modal opens
@@ -72,6 +83,7 @@ const FuelStatus = () => {
     try {
       const fuelData = {
         vehicleId: formData.vehicleId,
+        vehicleName: formData.vehicleName,
         fuelQuantity: formData.fuelQuantity,
         fuelPrice: formData.fuelPrice,
       };
@@ -119,9 +131,9 @@ const FuelStatus = () => {
         </div>
       </div>
       <div className="grid lg:grid-cols-4 lg:grid-rows-4 grid-cols-1 gap-4 h-full">
-        <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-1 lg:row-span-4 col-span-1 row-span-1 flex flex-col">
+        <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-1 lg:row-span-4 col-span-1 row-span-1 flex flex-col overflow-y-auto scroll-hidden">
           {fuels.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-4 max-h-96 overflow-y-auto no-scrollbar">
               {fuels.map((fuel) => (
                 <div
                   key={fuel._id}
@@ -152,8 +164,9 @@ const FuelStatus = () => {
             <p className="text-[#ccc]">No fuel records found.</p>
           )}
         </div>
+
         <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-3 lg:row-span-4 col-span-1 row-span-1 hidden lg:block">
-          <PriceChart />
+          <TotalSpentChart />
         </div>
       </div>
       <Modal show={addFuelModal} onClose={handleClosePopup} popup size="md">

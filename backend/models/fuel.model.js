@@ -11,6 +11,10 @@ const fuelSchema = new mongoose.Schema(
       ref: "Vehicle",
       required: true,
     },
+    vehicleName: {
+      type: "String",
+      required: true,
+    },
     fuelQuantity: {
       type: Number,
       required: true,
