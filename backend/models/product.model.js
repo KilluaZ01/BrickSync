@@ -27,6 +27,15 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "https://sudbury.legendboats.com/resource/defaultProductImage",
     },
+    totalRevenue: {
+      type: Number,
+      default: 0,
+    },
+
+    totalExpenses: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
