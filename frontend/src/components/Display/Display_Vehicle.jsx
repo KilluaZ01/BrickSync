@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentVehicle } from "../../redux/vehicle/vehicleSlice";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Display_Vehicle = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -32,6 +34,7 @@ const Display_Vehicle = () => {
           setUserVehicles(data.vehicles);
         }
       } catch (error) {
+        toast.error("Failed to fetch vehicles");
         console.log(error.message);
       }
     };
@@ -70,9 +73,11 @@ const Display_Vehicle = () => {
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
+        toast.error("Failed to update vehicle");
         setError(true);
         return;
       }
+      toast.success("Vehicle updated successfully");
       setUserVehicles((prev) => {
         if (vehicleIdToEdit) {
           return prev.map((vehicle) =>
@@ -88,6 +93,7 @@ const Display_Vehicle = () => {
       setShowEditModal(false);
     } catch (error) {
       setLoading(false);
+      toast.error("Failed to update vehicle");
       setError(true);
     }
   };
@@ -113,6 +119,7 @@ const Display_Vehicle = () => {
         }
       }
     } catch (error) {
+      toast.error("Failed to load more vehicles");
       console.log(error.message);
     }
   };
@@ -143,12 +150,15 @@ const Display_Vehicle = () => {
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
+        toast.error("Failed to create vehicle");
         setError(true);
         return;
       }
+      toast.success("Vehicle created successfully");
       handleClosePopup();
     } catch (error) {
       setLoading(false);
+      toast.error("Failed to create vehicle");
       setError(true);
     }
   };
@@ -164,19 +174,23 @@ const Display_Vehicle = () => {
       );
       const data = await res.json();
       if (!res.ok) {
+        toast.error("Failed to delete vehicle");
         console.log(data.message);
       } else {
+        toast.success("Vehicle deleted successfully");
         setUserVehicles((prev) =>
           prev.filter((vehicle) => vehicle._id !== vehicleIdToDelete)
         );
       }
     } catch (error) {
+      toast.error("Failed to delete vehicle");
       console.log(error.message);
     }
   };
 
   return (
     <div className="px-6 py-7 flex flex-col">
+      <ToastContainer />
       <div className="flex flex-row justify-between">
         <div>
           <h1 className="font-semibold text-2xl">Vehicles</h1>

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Display_Inventory = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +21,7 @@ const Display_Inventory = () => {
         setProducts(data.products);
       } catch (error) {
         console.error("Error fetching inventory data", error);
+        toast.error("Error fetching inventory data");
       }
     };
 
@@ -45,7 +48,9 @@ const Display_Inventory = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert(`Product ${action}ed successfully!`);
+        toast.success(
+          `Product ${action === "restock" ? "restocked" : "sold"} successfully!`
+        );
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
             product._id === data.product._id ? data.product : product
@@ -53,11 +58,11 @@ const Display_Inventory = () => {
         );
       } else {
         console.error("Error:", data.message);
-        alert(`Failed to ${action} product: ${data.message}`);
+        toast.error(`Failed to ${action} product: ${data.message}`);
       }
     } catch (error) {
       console.error("Error:", error);
-      alert(`Failed to ${action} product: ${error.message}`);
+      toast.error(`Failed to ${action} product: ${error.message}`);
     }
   };
 
@@ -156,6 +161,9 @@ const Display_Inventory = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Toast Container for Notifications */}
+      <ToastContainer />
     </div>
   );
 };

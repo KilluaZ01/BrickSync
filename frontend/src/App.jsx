@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Landing from "./pages/Landing/Landing";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
@@ -20,6 +22,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
+        <ToastContainer />
       </Router>
     </div>
   );

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import TotalSpentChart from "./Chart/TotalSpentChart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FuelStatus = () => {
   const [addFuelModal, setAddFuelModal] = useState(false);
@@ -48,6 +50,7 @@ const FuelStatus = () => {
           setVehicles(data.vehicles);
         } catch (error) {
           console.error("Error fetching vehicles", error);
+          toast.error("Failed to fetch vehicles");
         }
       };
 
@@ -68,6 +71,7 @@ const FuelStatus = () => {
         }
       } catch (error) {
         console.error("Error fetching fuels", error);
+        toast.error("Failed to fetch fuel data");
       }
     };
 
@@ -100,11 +104,12 @@ const FuelStatus = () => {
         throw new Error("Error adding fuel data");
       }
 
+      toast.success("Fuel added successfully");
       setAddFuelModal(false);
       setFormData({});
     } catch (error) {
       console.error("Error adding fuel data", error);
-      alert("Error adding fuel data");
+      toast.error("Failed to add fuel data");
     } finally {
       setLoading(false);
     }
@@ -112,6 +117,7 @@ const FuelStatus = () => {
 
   return (
     <div className="h-full px-6 py-7 flex flex-col">
+      <ToastContainer />
       <div className="flex flex-row justify-between mb-4">
         <div>
           <h1 className="font-semibold text-2xl">Fuel Info</h1>

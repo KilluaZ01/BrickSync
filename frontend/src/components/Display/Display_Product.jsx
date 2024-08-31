@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { setCurrentProduct } from "../../redux/product/productSlice";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Display_Product = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -19,7 +21,6 @@ const Display_Product = () => {
   const [showEditModal, setShowEditModal] = useState(false);
 
   const dispatch = useDispatch();
-
   const { currentUser } = useSelector((state) => state.user);
   const { currentProduct } = useSelector((state) => state.product);
 
@@ -74,6 +75,7 @@ const Display_Product = () => {
       setLoading(false);
       if (data.success === false) {
         setError(true);
+        toast.error("Failed to update product.");
         return;
       }
       setUserProducts((prev) => {
@@ -89,9 +91,11 @@ const Display_Product = () => {
       });
       handleClosePopup();
       setShowEditModal(false);
+      toast.success("Product updated successfully!");
     } catch (error) {
       setLoading(false);
       setError(true);
+      toast.error("Error updating product.");
     }
   };
 
@@ -117,6 +121,7 @@ const Display_Product = () => {
       }
     } catch (error) {
       console.log(error.message);
+      toast.error("Error loading more products.");
     }
   };
 
@@ -147,12 +152,15 @@ const Display_Product = () => {
       setLoading(false);
       if (data.success === false) {
         setError(true);
+        toast.error("Failed to add product.");
         return;
       }
       handleClosePopup();
+      toast.success("Product added successfully!");
     } catch (error) {
       setLoading(false);
       setError(true);
+      toast.error("Error adding product.");
     }
   };
 
@@ -168,18 +176,22 @@ const Display_Product = () => {
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
+        toast.error("Failed to delete product.");
       } else {
         setUserProducts((prev) =>
           prev.filter((product) => product._id !== productIdToDelete)
         );
+        toast.success("Product deleted successfully!");
       }
     } catch (error) {
       console.log(error.message);
+      toast.error("Error deleting product.");
     }
   };
 
   return (
     <div className="px-6 py-7 flex flex-col">
+      <ToastContainer />
       <div className="flex flex-row justify-between">
         <div>
           <h1 className="font-semibold text-2xl">Products</h1>
