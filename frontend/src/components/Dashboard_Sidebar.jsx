@@ -69,6 +69,8 @@ const Dashboard_Sidebar = () => {
           <p>Inventory</p>
         </div>
       </Link>
+      <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
+
       <Link to="/dashboard?tab=vehicle">
         <div
           className={`flex flex-row gap-4 items-center cursor-pointer ${
@@ -101,17 +103,6 @@ const Dashboard_Sidebar = () => {
         >
           <FaClipboardList />
           <p>Report</p>
-        </div>
-      </Link>
-      <Link to="/dashboard?tab=history">
-        <div
-          className={`flex flex-row gap-4 items-center cursor-pointer ${
-            activeItem === "History" ? "text-[#F8BD00]" : ""
-          }`}
-          onClick={() => handleItemClick("History")}
-        >
-          <FaHistory />
-          <p>History</p>
         </div>
       </Link>
       <div className="flex-grow"></div>

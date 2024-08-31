@@ -22,10 +22,8 @@ export const getProducts = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 5;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
-    const query = {};
-    if (req.query.userId) {
-      query.userId = req.query.userId;
-    }
+    // Ensure that the query only fetches products belonging to the logged-in user
+    const query = { userId: req.user.id }; // Filter by the logged-in user's ID
     if (req.query.productId) {
       query._id = req.query.productId;
     }

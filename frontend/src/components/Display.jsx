@@ -5,7 +5,6 @@ import Display_Inventory from "./Display/Display_Inventory";
 import Display_Product from "./Display/Display_Product";
 import Display_Vehicle from "./Display/Display_Vehicle";
 import Display_Report from "./Display/Display_Report";
-import Display_History from "./Display/Display_History";
 import Display_Fuel from "./Display/Display_Fuel";
 
 const Display = () => {
@@ -19,7 +18,6 @@ const Display = () => {
       {activePage === "Vehicles" && <Display_Vehicle />}
       {activePage === "Fuel" && <Display_Fuel />}
       {activePage === "Report" && <Display_Report />}
-      {activePage === "History" && <Display_History />}
     </div>
   );
 };

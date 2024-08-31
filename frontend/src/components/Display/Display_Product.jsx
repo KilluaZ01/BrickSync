@@ -296,9 +296,7 @@ const Display_Product = () => {
               <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider rounded-tl-lg">
                 Date Updated
               </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
-                Product Image
-              </th>
+
               <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">
                 Product Name
               </th>
@@ -325,13 +323,7 @@ const Display_Product = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
                   {new Date(product.updatedAt).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-300">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-20 h-10 object-cover bg-gray-500"
-                  />
-                </td>
+
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
                   {product.name}
                 </td>
