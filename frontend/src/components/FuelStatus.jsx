@@ -25,20 +25,18 @@ const FuelStatus = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-
     if (id === "vehicleId") {
       const selectedVehicle = vehicles.find((vehicle) => vehicle._id === value);
       setFormData({
         ...formData,
-        vehicleId: selectedVehicle._id,
-        vehicleName: selectedVehicle.vehName,
+        vehicleId: selectedVehicle?._id || "",
+        vehicleName: selectedVehicle?.vehName || "", // Set vehicleName
       });
     } else {
       setFormData({ ...formData, [id]: value });
     }
   };
 
-  // Fetch vehicles when the modal opens
   useEffect(() => {
     if (addFuelModal) {
       const fetchVehicles = async () => {
@@ -47,7 +45,11 @@ const FuelStatus = () => {
             `/api/vehicles/getvehicles?userId=${currentUser._id}`
           );
           const data = await response.json();
-          setVehicles(data.vehicles);
+          if (response.ok) {
+            setVehicles(data.vehicles);
+          } else {
+            toast.error("Failed to fetch vehicles");
+          }
         } catch (error) {
           console.error("Error fetching vehicles", error);
           toast.error("Failed to fetch vehicles");
@@ -58,7 +60,6 @@ const FuelStatus = () => {
     }
   }, [addFuelModal, currentUser._id]);
 
-  // Fetch fuel data
   useEffect(() => {
     const fetchFuels = async () => {
       try {
@@ -68,6 +69,8 @@ const FuelStatus = () => {
         const data = await response.json();
         if (response.ok) {
           setFuels(data.fuels);
+        } else {
+          toast.error("Failed to fetch fuel data");
         }
       } catch (error) {
         console.error("Error fetching fuels", error);
@@ -87,11 +90,11 @@ const FuelStatus = () => {
     try {
       const fuelData = {
         vehicleId: formData.vehicleId,
-        vehicleName: formData.vehicleName,
         fuelQuantity: formData.fuelQuantity,
         fuelPrice: formData.fuelPrice,
       };
 
+      // Add fuel data
       const response = await fetch("/api/fuels/create", {
         method: "POST",
         headers: {
@@ -101,12 +104,38 @@ const FuelStatus = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error adding fuel data");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error adding fuel data");
+      }
+
+      // Add transaction logging
+      const transactionData = {
+        entityName: formData.vehicleName, // This is required for creating the transaction
+        amount: formData.fuelPrice,
+        userId: currentUser._id,
+      };
+
+      const transactionResponse = await fetch("/api/transactions/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transactionData),
+      });
+
+      if (!transactionResponse.ok) {
+        const errorData = await transactionResponse.json();
+        throw new Error(errorData.message || "Error logging transaction");
       }
 
       toast.success("Fuel added successfully");
       setAddFuelModal(false);
       setFormData({});
+      const newFuelsResponse = await fetch(
+        `/api/fuels/getFuels?userId=${currentUser._id}`
+      );
+      const newFuelsData = await newFuelsResponse.json();
+      setFuels(newFuelsData.fuels);
     } catch (error) {
       console.error("Error adding fuel data", error);
       toast.error("Failed to add fuel data");
@@ -207,12 +236,12 @@ const FuelStatus = () => {
                   Fuel Quantity
                 </label>
                 <input
-                  type="number"
                   id="fuelQuantity"
+                  type="number"
                   value={formData.fuelQuantity || ""}
                   onChange={handleChange}
                   className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
-                  placeholder="Enter fuel quantity"
+                  required
                 />
               </div>
               <div className="mb-4">
@@ -220,27 +249,19 @@ const FuelStatus = () => {
                   Fuel Price
                 </label>
                 <input
-                  type="text"
                   id="fuelPrice"
+                  type="number"
                   value={formData.fuelPrice || ""}
                   onChange={handleChange}
                   className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
-                  placeholder="Enter fuel price"
+                  required
                 />
               </div>
-
-              <div className="flex justify-end">
-                <Button
-                  type="button"
-                  onClick={handleClosePopup}
-                  className="bg-red-600 text-white px-4 border-none py-2 rounded-lg mr-4"
-                >
-                  Cancel
-                </Button>
+              <div className="flex items-center justify-between">
                 <Button
                   type="submit"
-                  className="bg-[#B1B500] text-white border-none px-4 py-2 rounded-lg"
                   disabled={loading}
+                  className={`w-full py-2 px-4 rounded-lg text-white ${loading ? "bg-gray-500" : "bg-[#B1B500]"} transition-colors duration-200`}
                 >
                   {loading ? "Adding..." : "Add Fuel"}
                 </Button>

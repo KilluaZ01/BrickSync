@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/create", verifyToken, createFuel);
 router.get("/getFuels", verifyToken, getFuels);
-router.get("/total-spent-per-vehicle", getTotalSpentPerVehicle);
-router.delete("/delete/:fuelId", deleteFuel);
+router.get("/total-spent-per-vehicle", verifyToken, getTotalSpentPerVehicle);
+router.delete("/delete/:fuelId", verifyToken, deleteFuel);
 
 export default router;

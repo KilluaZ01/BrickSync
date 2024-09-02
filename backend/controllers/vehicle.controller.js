@@ -1,22 +1,23 @@
-import vehicle from "../models/vehicle.model.js";
+import Vehicle from "../models/vehicle.model.js";
+import Transaction from "../models/transaction.model.js";
 import { errorHandler } from "../utils/error.js";
 
 // Create a new vehicle
-export const createvehicle = async (req, res, next) => {
-  const newvehicle = new vehicle({
+export const createVehicle = async (req, res, next) => {
+  const newVehicle = new Vehicle({
     ...req.body,
     userId: req.user.id,
   });
   try {
-    const savedvehicle = await newvehicle.save();
-    res.status(201).json(savedvehicle);
+    const savedVehicle = await newVehicle.save();
+    res.status(201).json(savedVehicle);
   } catch (error) {
     next(error);
   }
 };
 
 // Get all vehicles for the current user
-export const getvehicles = async (req, res, next) => {
+export const getVehicles = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 5;
@@ -30,13 +31,12 @@ export const getvehicles = async (req, res, next) => {
       query._id = req.query.vehicleId;
     }
 
-    const vehicles = await vehicle
-      .find(query)
+    const vehicles = await Vehicle.find(query)
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
 
-    const totalvehicles = await vehicle.countDocuments(query);
+    const totalVehicles = await Vehicle.countDocuments(query);
 
     const now = new Date();
     const oneMonthAgo = new Date(
@@ -45,27 +45,28 @@ export const getvehicles = async (req, res, next) => {
       now.getDate()
     );
 
-    const lastMonthvehicles = await vehicle.countDocuments({
+    const lastMonthVehicles = await Vehicle.countDocuments({
       ...query,
       createdAt: { $gte: oneMonthAgo },
     });
 
     res.status(200).json({
       vehicles,
-      totalvehicles,
-      lastMonthvehicles,
+      totalVehicles,
+      lastMonthVehicles,
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const updatevehicle = async (req, res, next) => {
+// Update a vehicle
+export const updateVehicle = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
     return next(errorHandler(401, "You can edit only your own vehicle!"));
   }
   try {
-    const updatedvehicle = await vehicle.findByIdAndUpdate(
+    const updatedVehicle = await Vehicle.findByIdAndUpdate(
       req.params.vehicleId,
       {
         $set: {
@@ -77,21 +78,31 @@ export const updatevehicle = async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(200).json(updatedvehicle);
+
+    // Log the transaction
+    const transaction = new Transaction({
+      entityName: updatedVehicle.name,
+      entityType: "Vehicle",
+      transactionType: "Update", // Assuming this is an update event
+      amount: req.body.price * req.body.quantity, // Log price * quantity
+    });
+    await transaction.save();
+
+    res.status(200).json(updatedVehicle);
   } catch (error) {
     next(error);
   }
 };
 
 // Delete a vehicle
-export const deletevehicle = async (req, res, next) => {
+export const deleteVehicle = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
     return next(
-      errorHandler(403, "Your are not allowed to delete this vehicle")
+      errorHandler(403, "You are not allowed to delete this vehicle")
     );
   }
   try {
-    await vehicle.findByIdAndDelete(req.params.vehicleId);
+    await Vehicle.findByIdAndDelete(req.params.vehicleId);
     res.status(200).json("The vehicle has been deleted");
   } catch (error) {
     next(error);

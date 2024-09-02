@@ -1,4 +1,5 @@
 import Product from "../models/product.model.js";
+import Transaction from "../models/transaction.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const restockProduct = async (req, res, next) => {
@@ -13,6 +14,15 @@ export const restockProduct = async (req, res, next) => {
     product.quantity += quantity;
     product.totalExpenses += quantity * price; // Update total expenses
     await product.save();
+
+    // Log the transaction
+    const transaction = new Transaction({
+      entityName: product.name,
+      entityType: "Product",
+      transactionType: "Restock",
+      amount: quantity * price,
+    });
+    await transaction.save();
 
     res
       .status(200)
@@ -38,6 +48,15 @@ export const sellProduct = async (req, res, next) => {
     product.quantity -= quantity;
     product.totalRevenue += quantity * product.price; // Update total revenue
     await product.save();
+
+    // Log the transaction
+    const transaction = new Transaction({
+      entityName: product.name,
+      entityType: "Product",
+      transactionType: "Sale",
+      amount: quantity * product.price,
+    });
+    await transaction.save();
 
     res.status(200).json({ message: "Product sold successfully", product });
   } catch (error) {
