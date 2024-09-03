@@ -94,3 +94,31 @@ export const deleteProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getTotalRevenue = async (req, res, next) => {
+  try {
+    const products = await Product.find({});
+    const totalRevenue = products.reduce(
+      (acc, product) => acc + product.totalRevenue,
+      0
+    );
+
+    res.status(200).json({ totalRevenue });
+  } catch (error) {
+    next(errorHandler(500, "Failed to calculate total revenue"));
+  }
+};
+
+export const getTotalExpenses = async (req, res, next) => {
+  try {
+    const products = await Product.find({});
+    const totalExpenses = products.reduce(
+      (acc, product) => acc + product.totalExpenses,
+      0
+    );
+
+    res.status(200).json({ totalExpenses });
+  } catch (error) {
+    next(errorHandler(500, "Failed to calculate total expenses"));
+  }
+};

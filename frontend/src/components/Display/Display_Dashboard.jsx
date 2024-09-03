@@ -9,6 +9,53 @@ const Display_Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true); // State to track loading
   const { currentUser } = useSelector((state) => state.user);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+
+  useEffect(() => {
+    const fetchTotalRevenue = async () => {
+      try {
+        const response = await fetch(
+          `/api/products/total-revenue?userId=${currentUser._id}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setTotalRevenue(data.totalRevenue);
+        } else {
+          toast.error("Failed to fetch total revenue");
+        }
+      } catch (error) {
+        console.error("Error fetching total revenue", error);
+        toast.error("Failed to fetch total revenue");
+      }
+    };
+
+    if (currentUser) {
+      fetchTotalRevenue();
+    }
+  }, [currentUser._id]);
+
+  useEffect(() => {
+    const fetchTotalExpenses = async () => {
+      try {
+        const response = await fetch(
+          `/api/products/total-expenses?userId=${currentUser._id}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setTotalExpenses(data.totalExpenses);
+        } else {
+          toast.error("Failed to fetch total expenses");
+        }
+      } catch (error) {
+        console.error("Error fetching total expenses", error);
+        toast.error("Failed to fetch total expenses");
+      }
+    };
+    if (currentUser) {
+      fetchTotalExpenses();
+    }
+  }, [currentUser._id]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -72,7 +119,7 @@ const Display_Dashboard = () => {
           </h3>
           <TbDeviceAnalytics className="text-xl text-green-400" />
         </div>
-        <p className="font-medium text-2xl mt-1">Rs 190980</p>
+        <p className="font-medium text-2xl mt-1">Rs {totalRevenue}</p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
           <span className="text-green-400">+15% </span>from last month
         </p>
@@ -85,7 +132,7 @@ const Display_Dashboard = () => {
           </h3>
           <PiMoney className="text-xl text-yellow-400" />
         </div>
-        <p className="font-medium text-2xl mt-1">Rs 190980</p>
+        <p className="font-medium text-2xl mt-1">Rs {totalExpenses}</p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
           <span className="text-green-400">+15% </span>from last month
         </p>
@@ -98,7 +145,9 @@ const Display_Dashboard = () => {
           </h3>
           <TbMoneybag className="text-xl text-blue-400" />
         </div>
-        <p className="font-medium text-2xl mt-1">Rs 190980</p>
+        <p className="font-medium text-2xl mt-1">
+          {totalRevenue - totalExpenses}
+        </p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
           <span className="text-green-400">+15% </span>from last month
         </p>
