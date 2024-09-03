@@ -318,46 +318,48 @@ const Display_Product = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-600">
-            {userProducts.map((product) => (
-              <tr key={product._id} className="bg-gray-800">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
-                  {new Date(product.updatedAt).toLocaleDateString()}
-                </td>
+            {userProducts
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((product) => (
+                <tr key={product._id} className="bg-gray-800">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                    {new Date(product.updatedAt).toLocaleDateString()}
+                  </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
-                  {product.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
-                  {product.description}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
-                  Rs. {product.price}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
-                  {product.quantity}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-500 hover:underline cursor-pointer">
-                  <span
-                    onClick={() => {
-                      setShowModal(true);
-                      setProductIdToDelete(product._id);
-                    }}
-                  >
-                    Delete
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap hover:underline cursor-pointer text-sm font-medium text-teal-500">
-                  <span
-                    onClick={() => {
-                      setProductIdToEdit(product._id);
-                      handleEdit(product);
-                    }}
-                  >
-                    Edit
-                  </span>
-                </td>
-              </tr>
-            ))}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                    {product.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                    {product.description}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                    Rs. {product.price}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
+                    {product.quantity}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-500 hover:underline cursor-pointer">
+                    <span
+                      onClick={() => {
+                        setShowModal(true);
+                        setProductIdToDelete(product._id);
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap hover:underline cursor-pointer text-sm font-medium text-teal-500">
+                    <span
+                      onClick={() => {
+                        setProductIdToEdit(product._id);
+                        handleEdit(product);
+                      }}
+                    >
+                      Edit
+                    </span>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       ) : (

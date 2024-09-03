@@ -108,39 +108,54 @@ const Display_Dashboard = () => {
         <div className="mb-4">
           <h2 className="text-md font-normal">Transaction history</h2>
         </div>
-        <table className="min-w-full">
-          <thead>
-            <tr>
-              <th className="text-left text-[#eeeeee77] text-sm font-medium">
-                Transaction
-              </th>
-              <th className="text-left text-[#eeeeee77] text-sm font-medium">
-                Type
-              </th>
-              <th className="text-left text-[#eeeeee77] text-sm font-medium">
-                Amount
-              </th>
-              <th className="text-left text-[#eeeeee77] text-sm font-medium">
-                Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <tr key={index} className={getColor(transaction.transactionType)}>
-                <td className="py-2 flex items-center gap-2">
-                  {getIcon(transaction.transactionType)}
-                  <span className="text-sm">{transaction.entityName}</span>
-                </td>
-                <td className="py-2 text-sm">{transaction.transactionType}</td>
-                <td className="py-2 text-sm">Rs {transaction.amount}</td>
-                <td className="py-2 text-sm">
-                  {new Date(transaction.createdAt).toLocaleDateString()}
-                </td>
+        <div className="relative overflow-hidden">
+          <table className="min-w-full">
+            <thead className="sticky top-0 bg-[#22283177] z-10">
+              <tr>
+                <th className="text-left text-[#eeeeee77] text-sm font-medium">
+                  Transaction
+                </th>
+                <th className="text-left text-[#eeeeee77] text-sm font-medium">
+                  Type
+                </th>
+                <th className="text-left text-[#eeeeee77] text-sm font-medium">
+                  Amount
+                </th>
+                <th className="text-left text-[#eeeeee77] text-sm font-medium">
+                  Date
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+          </table>
+          <div className="max-h-64 overflow-y-auto no-scrollbar">
+            <table className="min-w-full text-center">
+              <tbody>
+                {transactions
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by date, latest first
+                  .map((transaction, index) => (
+                    <tr
+                      key={index}
+                      className={getColor(transaction.transactionType)}
+                    >
+                      <td className="py-2 flex items-center gap-2">
+                        {getIcon(transaction.transactionType)}
+                        <span className="text-sm">
+                          {transaction.entityName}
+                        </span>
+                      </td>
+                      <td className="py-2 text-sm">
+                        {transaction.transactionType}
+                      </td>
+                      <td className="py-2 text-sm">Rs {transaction.amount}</td>
+                      <td className="py-2 text-sm">
+                        {new Date(transaction.createdAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div className="col-span-3 row-span-4 bg-[#22283177] rounded-lg p-5 border-[1.5px] border-[#222831]">

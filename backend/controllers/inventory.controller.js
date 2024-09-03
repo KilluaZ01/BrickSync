@@ -21,6 +21,7 @@ export const restockProduct = async (req, res, next) => {
       entityType: "Product",
       transactionType: "Restock",
       amount: quantity * price,
+      userId: req.user.id,
     });
     await transaction.save();
 
@@ -55,6 +56,7 @@ export const sellProduct = async (req, res, next) => {
       entityType: "Product",
       transactionType: "Sale",
       amount: quantity * product.price,
+      userId: req.user.id,
     });
     await transaction.save();
 

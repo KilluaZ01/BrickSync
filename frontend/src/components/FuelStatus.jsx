@@ -108,26 +108,6 @@ const FuelStatus = () => {
         throw new Error(errorData.message || "Error adding fuel data");
       }
 
-      // Add transaction logging
-      const transactionData = {
-        entityName: formData.vehicleName, // This is required for creating the transaction
-        amount: formData.fuelPrice,
-        userId: currentUser._id,
-      };
-
-      const transactionResponse = await fetch("/api/transactions/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(transactionData),
-      });
-
-      if (!transactionResponse.ok) {
-        const errorData = await transactionResponse.json();
-        throw new Error(errorData.message || "Error logging transaction");
-      }
-
       toast.success("Fuel added successfully");
       setAddFuelModal(false);
       setFormData({});
