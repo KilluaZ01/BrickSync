@@ -4,7 +4,12 @@ import { errorHandler } from "../utils/error.js";
 
 export const getTotalSpentPerVehicle = async (req, res, next) => {
   try {
+    const { userId } = req.query; // Extract userId from the query parameters
+
     const results = await Fuel.aggregate([
+      {
+        $match: { userId }, // Filter by userId
+      },
       {
         $group: {
           _id: "$vehicleId", // Group by vehicleId
@@ -35,8 +40,6 @@ export const getTotalSpentPerVehicle = async (req, res, next) => {
         },
       },
     ]);
-
-    console.log("Aggregated Results:", results); // Debug log to verify results
 
     res.status(200).json(results);
   } catch (error) {

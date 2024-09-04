@@ -64,7 +64,7 @@ const FuelStatus = () => {
     const fetchFuels = async () => {
       try {
         const response = await fetch(
-          `/api/fuels/getFuels?userId=${currentUser._id}`
+          `/api/fuels/total-spent-per-vehicle?userId=${currentUser._id}`
         );
         const data = await response.json();
         if (response.ok) {
@@ -186,24 +186,23 @@ const FuelStatus = () => {
       </div>
       <Modal show={addFuelModal} onClose={handleClosePopup} popup size="md">
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-[#222831] p-6 rounded-lg shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4 text-[#eee]">
-              Add Fuel to Vehicle
+          <div className="bg-[#393E46] rounded-lg shadow-lg p-6 relative">
+            <h2 className="text-2xl font-semibold mb-4 text-white">
+              Add Fuel Info
             </h2>
-            <form onSubmit={handleAddFuelSubmit}>
-              <div className="mb-4">
-                <label className="block text-[#eee] text-sm font-normal mb-2">
-                  Vehicle Name
+            <form onSubmit={handleAddFuelSubmit} className="space-y-4">
+              <div className="flex flex-col">
+                <label htmlFor="vehicleId" className="text-white text-sm mb-2">
+                  Select Vehicle:
                 </label>
                 <select
                   id="vehicleId"
                   value={formData.vehicleId || ""}
                   onChange={handleChange}
-                  className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  className="p-2 border rounded-lg bg-[#333] text-white"
+                  required
                 >
-                  <option value="" disabled>
-                    Select a vehicle
-                  </option>
+                  <option value="">Select a vehicle</option>
                   {vehicles.map((vehicle) => (
                     <option key={vehicle._id} value={vehicle._id}>
                       {vehicle.vehName}
@@ -211,39 +210,42 @@ const FuelStatus = () => {
                   ))}
                 </select>
               </div>
-              <div className="mb-4">
-                <label className="block text-[#eee] text-sm font-normal mb-2">
-                  Fuel Quantity
+              <div className="flex flex-col">
+                <label
+                  htmlFor="fuelQuantity"
+                  className="text-white text-sm mb-2"
+                >
+                  Fuel Quantity (liters):
                 </label>
                 <input
-                  id="fuelQuantity"
                   type="number"
+                  id="fuelQuantity"
                   value={formData.fuelQuantity || ""}
                   onChange={handleChange}
-                  className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  className="p-2 border rounded-lg bg-[#333] text-white"
                   required
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-[#eee] text-sm font-normal mb-2">
-                  Fuel Price
+              <div className="flex flex-col">
+                <label htmlFor="fuelPrice" className="text-white text-sm mb-2">
+                  Fuel Price:
                 </label>
                 <input
-                  id="fuelPrice"
                   type="number"
+                  id="fuelPrice"
                   value={formData.fuelPrice || ""}
                   onChange={handleChange}
-                  className="w-full text-[#222831] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                  className="p-2 border rounded-lg bg-[#333] text-white"
                   required
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex justify-end">
                 <Button
                   type="submit"
                   disabled={loading}
-                  className={`w-full py-2 px-4 rounded-lg text-white ${loading ? "bg-gray-500" : "bg-[#B1B500]"} transition-colors duration-200`}
+                  className="bg-[#B1B500] text-white px-4 py-2 rounded-lg"
                 >
-                  {loading ? "Adding..." : "Add Fuel"}
+                  {loading ? "Saving..." : "Save"}
                 </Button>
               </div>
             </form>

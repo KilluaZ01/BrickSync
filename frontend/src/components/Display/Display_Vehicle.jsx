@@ -278,50 +278,53 @@ const Display_Vehicle = () => {
       {/* Vehicle List */}
       <div className="mt-6">
         {userVehicles.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {userVehicles.map((vehicle) => (
-              <div
-                key={vehicle._id}
-                className="bg-[#222831] p-4 rounded-lg shadow-lg"
-              >
-                <div className="flex flex-row justify-between">
-                  <h3 className="text-lg font-semibold text-[#eee] mb-2">
-                    {vehicle.vehName}
-                  </h3>
+          <div className="max-h-96 overflow-y-auto no-scrollbar">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {userVehicles.map((vehicle) => (
+                <div
+                  key={vehicle._id}
+                  className="bg-[#222831] p-4 rounded-lg shadow-lg"
+                >
+                  <div className="flex flex-row justify-between">
+                    <h3 className="text-lg font-semibold text-[#eee] mb-2">
+                      {vehicle.vehName}
+                    </h3>
+                    <p className="text-sm text-[#eeeeee85]">
+                      {new Date(vehicle.updatedAt).toLocaleDateString()}
+                    </p>
+                  </div>
                   <p className="text-sm text-[#eeeeee85]">
-                    {new Date(vehicle.updatedAt).toLocaleDateString()}
+                    Number: {vehicle.vehNumber}
                   </p>
+                  <p className="text-sm text-[#eeeeee85]">
+                    Category: {vehicle.vehCategory}
+                  </p>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      className="bg-[#B1B500] text-white px-4 py-2 rounded-lg mr-2"
+                      onClick={() => handleEdit(vehicle)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                      onClick={() => {
+                        setVehicleIdToDelete(vehicle._id);
+                        setShowModal(true);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <p className="text-sm text-[#eeeeee85]">
-                  Number: {vehicle.vehNumber}
-                </p>
-                <p className="text-sm text-[#eeeeee85]">
-                  Category: {vehicle.vehCategory}
-                </p>
-                <div className="flex justify-end mt-4">
-                  <button
-                    className="bg-[#B1B500] text-white px-4 py-2 rounded-lg mr-2"
-                    onClick={() => handleEdit(vehicle)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
-                    onClick={() => {
-                      setVehicleIdToDelete(vehicle._id);
-                      setShowModal(true);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ) : (
           <p className="text-[#ccc]">No vehicles found.</p>
         )}
       </div>
+
       {showMore && userVehicles.length >= 9 && (
         <div className="flex justify-center mt-6">
           <button

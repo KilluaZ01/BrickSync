@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,16 +19,18 @@ ChartJS.register(
   Legend
 );
 
-const TotalSpentChart = () => {
+const TotalSpentChart = ({ currentUser }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/fuels/total-spent-per-vehicle");
-        const data = response.data;
+        const response = await fetch(
+          `/api/fuels/total-spent-per-vehicle?userId=${currentUser._id}`
+        );
+        const data = await response.json();
 
-        if (data && data.length > 0) {
+        if (response.ok && data.length > 0) {
           // Extract vehicle names and total spent amounts
           const vehicleNames = data.map((item) => item.vehicleName);
           const totalSpent = data.map((item) => item.totalSpent);
@@ -52,8 +53,10 @@ const TotalSpentChart = () => {
       }
     };
 
-    fetchData();
-  }, []);
+    if (currentUser) {
+      fetchData();
+    }
+  }, [currentUser]);
 
   if (!chartData) {
     return <p>Loading chart data...</p>;

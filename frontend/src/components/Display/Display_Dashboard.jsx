@@ -3,11 +3,11 @@ import { TbDeviceAnalytics, TbMoneybag } from "react-icons/tb";
 import { PiMoney, PiPackage, PiTruck } from "react-icons/pi";
 import StockAlertChart from "../Chart/StockAlertChart";
 import { useSelector } from "react-redux";
-import { Spinner } from "flowbite-react"; // Import the spinner component from Flowbite
+import { Spinner } from "flowbite-react";
 
 const Display_Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true); // State to track loading
+  const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
