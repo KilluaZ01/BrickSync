@@ -64,7 +64,7 @@ const FuelStatus = () => {
     const fetchFuels = async () => {
       try {
         const response = await fetch(
-          `/api/fuels/total-spent-per-vehicle?userId=${currentUser._id}`
+          `/api/fuels/getFuels?userId=${currentUser._id}` // Updated endpoint
         );
         const data = await response.json();
         if (response.ok) {
@@ -90,8 +90,8 @@ const FuelStatus = () => {
     try {
       const fuelData = {
         vehicleId: formData.vehicleId,
-        fuelQuantity: formData.fuelQuantity,
-        fuelPrice: formData.fuelPrice,
+        fuelQuantity: parseFloat(formData.fuelQuantity), // Ensure it is a number
+        fuelPrice: parseFloat(formData.fuelPrice), // Ensure it is a number
       };
 
       // Add fuel data
@@ -111,6 +111,7 @@ const FuelStatus = () => {
       toast.success("Fuel added successfully");
       setAddFuelModal(false);
       setFormData({});
+      // Refresh fuel data
       const newFuelsResponse = await fetch(
         `/api/fuels/getFuels?userId=${currentUser._id}`
       );
@@ -181,7 +182,7 @@ const FuelStatus = () => {
         </div>
 
         <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-3 lg:row-span-4 col-span-1 row-span-1 hidden lg:block">
-          <TotalSpentChart />
+          <TotalSpentChart currentUser={currentUser} />
         </div>
       </div>
       <Modal show={addFuelModal} onClose={handleClosePopup} popup size="md">

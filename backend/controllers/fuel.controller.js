@@ -13,6 +13,10 @@ export const createFuel = async (req, res, next) => {
     return next(errorHandler(400, "Missing required fields"));
   }
 
+  if (typeof fuelQuantity !== "number" || typeof fuelPrice !== "number") {
+    return next(errorHandler(400, "Fuel quantity and price must be numbers"));
+  }
+
   try {
     // Check if the vehicle exists
     const vehicle = await Vehicle.findById(vehicleId);
