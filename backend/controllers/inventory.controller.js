@@ -11,8 +11,11 @@ export const restockProduct = async (req, res, next) => {
       return next(errorHandler(404, "Product not found"));
     }
 
+    // Update product stock and expenses
     product.quantity += quantity;
     product.totalExpenses += quantity * price; // Update total expenses
+
+    // Save updated product
     await product.save();
 
     // Log the transaction
@@ -46,8 +49,11 @@ export const sellProduct = async (req, res, next) => {
       return next(errorHandler(400, "Insufficient stock"));
     }
 
+    // Update product stock and revenue
     product.quantity -= quantity;
     product.totalRevenue += quantity * product.price; // Update total revenue
+
+    // Save updated product
     await product.save();
 
     // Log the transaction

@@ -97,9 +97,12 @@ export const deleteProduct = async (req, res, next) => {
 
 export const getTotalRevenue = async (req, res, next) => {
   try {
-    const products = await Product.find({});
+    // Fetch products for the logged-in user only
+    const products = await Product.find({ userId: req.user.id });
+
+    // Calculate total revenue for this user's products
     const totalRevenue = products.reduce(
-      (acc, product) => acc + product.totalRevenue,
+      (acc, product) => acc + (product.totalRevenue || 0), // Ensure 0 if undefined
       0
     );
 
@@ -111,9 +114,12 @@ export const getTotalRevenue = async (req, res, next) => {
 
 export const getTotalExpenses = async (req, res, next) => {
   try {
-    const products = await Product.find({});
+    // Fetch products for the logged-in user only
+    const products = await Product.find({ userId: req.user.id });
+
+    // Calculate total expenses for this user's products
     const totalExpenses = products.reduce(
-      (acc, product) => acc + product.totalExpenses,
+      (acc, product) => acc + (product.totalExpenses || 0), // Ensure 0 if undefined
       0
     );
 
