@@ -56,7 +56,7 @@ export const google = async (req, res, next) => {
         email: req.body.email,
         password: hashedPassword,
         profilePicture: req.body.photo,
-        firstLogin: true, // Mark this as the first login
+        firstLogin: true,
       });
       await user.save();
     }

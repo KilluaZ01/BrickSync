@@ -7,9 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   FaBox,
   FaChartBar,
-  FaClipboardList,
   FaGasPump,
-  FaHistory,
   FaSignOutAlt,
   FaTruckPickup,
 } from "react-icons/fa";
@@ -47,6 +45,7 @@ const Dashboard_Sidebar = () => {
           <p>Dashboard</p>
         </div>
       </Link>
+      <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
       <Link to="/dashboard?tab=product">
         <div
           className={`flex flex-row gap-4 items-center cursor-pointer ${
@@ -91,18 +90,6 @@ const Dashboard_Sidebar = () => {
         >
           <FaGasPump />
           <p>Fuel</p>
-        </div>
-      </Link>
-      <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
-      <Link to="/dashboard?tab=report">
-        <div
-          className={`flex flex-row gap-4 items-center cursor-pointer ${
-            activeItem === "Report" ? "text-[#F8BD00]" : ""
-          }`}
-          onClick={() => handleItemClick("Report")}
-        >
-          <FaClipboardList />
-          <p>Report</p>
         </div>
       </Link>
       <div className="flex-grow"></div>
