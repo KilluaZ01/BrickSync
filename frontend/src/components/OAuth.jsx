@@ -45,7 +45,7 @@ export default function OAuth() {
       onClick={handleGoogleClick}
     >
       <img className="w-4" src={assets.google_icon} alt="" />
-      Sign Up with Google
+      Continue with Google
     </button>
   );
 }

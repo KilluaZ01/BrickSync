@@ -97,7 +97,7 @@ const Register = () => {
             </div>
             <button className="flex flex-row justify-center gap-3 items-center text-sm w-full mb-3 p-[0.6rem] bg-[#4267B2] text-[#eee] rounded-[10px] ">
               <img className="w-5" src={assets.facebook_icon1} alt="" />
-              Sign Up with Facebook
+              Continue with Facebook
             </button>
             <OAuth />
           </form>
