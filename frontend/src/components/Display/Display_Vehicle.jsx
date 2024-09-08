@@ -336,12 +336,21 @@ const Display_Vehicle = () => {
         </div>
       )}
       {/* Edit Vehicle Modal */}
-      <Modal show={showEditModal} onClose={handleEditClosePopup}>
-        <Modal.Header>Edit Vehicle</Modal.Header>
-        <Modal.Body>
+      <Modal
+        show={showEditModal}
+        onClose={handleEditClosePopup}
+        popup
+        size="md"
+      >
+        <Modal.Header className="bg-gray-700 rounded-t-lg" />
+        <Modal.Body className="bg-gray-700 rounded-b-lg">
           <form onSubmit={handleEditSubmit}>
+            <h2 className="text-xl mb-4 font-semibold text-[#eee]">
+              Edit Vehicle
+            </h2>
+
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+              <label className="block text-gray-300 text-sm font-normal mb-2">
                 Vehicle Name
               </label>
               <input
@@ -349,12 +358,12 @@ const Display_Vehicle = () => {
                 id="vehName"
                 value={formData.vehName || ""}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
                 placeholder="Enter vehicle name"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+              <label className="block text-gray-300 text-sm font-normal mb-2">
                 Number
               </label>
               <input
@@ -362,12 +371,12 @@ const Display_Vehicle = () => {
                 id="vehNumber"
                 value={formData.vehNumber || ""}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
                 placeholder="Enter vehicle number"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+              <label className="block text-gray-300 text-sm font-normal mb-2">
                 Category
               </label>
               <input
@@ -375,45 +384,66 @@ const Display_Vehicle = () => {
                 id="vehCategory"
                 value={formData.vehCategory || ""}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
+                className="w-full text-gray-900 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
                 placeholder="Enter vehicle category"
               />
             </div>
             <div className="flex justify-end">
               <Button
-                color="red"
+                type="button"
                 onClick={handleEditClosePopup}
-                className="mr-2"
+                className="mr-4 bg-teal-600 text-white rounded-lg border-none"
               >
                 Cancel
               </Button>
-              <Button type="submit" color="success" disabled={loading}>
+              <Button
+                type="submit"
+                className="bg-[#B1B500] text-white rounded-lg border-none"
+                disabled={loading}
+              >
                 {loading ? "Saving..." : "Save Changes"}
               </Button>
             </div>
+            {error && (
+              <p className="text-red-500 mt-2">
+                Failed to edit vehicle. Please try again.
+              </p>
+            )}
           </form>
         </Modal.Body>
       </Modal>
+
       {/* Delete Confirmation Modal */}
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <Modal.Header>
-          <HiOutlineExclamationCircle className="h-6 w-6 text-red-600" />
-          <span>Delete Vehicle</span>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="text-gray-700">
-            Are you sure you want to delete this vehicle? This action cannot be
-            undone.
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header className="bg-gray-700 rounded-t-lg"></Modal.Header>
+        <Modal.Body className="bg-gray-700 rounded-b-lg">
+          <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 mx-auto mb-4" />
+
+          <div className="text-center">
+            <p className="text-[#eee] mb-5">
+              Are you sure you want to delete this vehicle?
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button
+                className="bg-red-600 border-none"
+                onClick={handleDeleteVehicle}
+              >
+                Yes, I'm sure
+              </Button>
+              <Button
+                className="bg-teal-600 border-none"
+                onClick={() => setShowModal(false)}
+              >
+                No, Cancel
+              </Button>
+            </div>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button color="red" onClick={handleDeleteVehicle} className="mr-2">
-            Yes, Delete
-          </Button>
-          <Button color="gray" onClick={() => setShowModal(false)}>
-            Cancel
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

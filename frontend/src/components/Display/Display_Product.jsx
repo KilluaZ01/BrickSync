@@ -379,19 +379,22 @@ const Display_Product = () => {
         popup
         size="md"
       >
-        <Modal.Header />
-        <Modal.Body>
+        <Modal.Header className="bg-gray-700 rounded-t-lg" />
+        <Modal.Body className="bg-gray-700 rounded-b-lg">
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 mb-4 mx-auto" />
-            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+            <h3 className="mb-5 text-lg text-[#eee] dark:text-gray-400">
               Are you sure you want to delete this product?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button className="bg-red-600" onClick={handleDeleteProduct}>
+              <Button
+                className="bg-red-600 border-none"
+                onClick={handleDeleteProduct}
+              >
                 Yes, I'm sure
               </Button>
               <Button
-                className="bg-gray-600"
+                className="bg-teal-600 border-none"
                 onClick={() => setShowModal(false)}
               >
                 No, cancel
@@ -406,13 +409,15 @@ const Display_Product = () => {
         popup
         size="md"
       >
-        <Modal.Header />
-        <Modal.Body>
+        <Modal.Header className="bg-gray-700 rounded-t-lg" />
+        <Modal.Body className="bg-gray-700 rounded-b-lg">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
+            <h2 className="text-xl font-semibold mb-4 text-[#eee]">
+              Edit Product
+            </h2>
             <form onSubmit={handleEditSubmit}>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-normal mb-2">
+                <label className="block text-gray-300 text-sm font-normal mb-2">
                   Product Name
                 </label>
                 <input
@@ -425,7 +430,7 @@ const Display_Product = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-normal mb-2">
+                <label className="block text-gray-300 text-sm font-normal mb-2">
                   Description
                 </label>
                 <input
@@ -438,7 +443,7 @@ const Display_Product = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-normal mb-2">
+                <label className="block text-gray-300 text-sm font-normal mb-2">
                   Quantity
                 </label>
                 <input
@@ -451,7 +456,7 @@ const Display_Product = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-normal mb-2">
+                <label className="block text-gray-300 text-sm font-normal mb-2">
                   Price
                 </label>
                 <input
@@ -467,16 +472,16 @@ const Display_Product = () => {
                 <Button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="mr-4 bg-gray-300 text-gray-700 rounded-lg px-4 py-2"
+                  className="mr-4 bg-teal-600 text-white rounded-lg border-none"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-[#B1B500] text-white rounded-lg px-4 py-2"
+                  className="bg-[#B1B500] text-white rounded-lg border-none"
                   disabled={loading}
                 >
-                  {loading ? "Edting..." : "Edited"}
+                  {loading ? "Edting..." : "Edit"}
                 </Button>
               </div>
               {error && (
