@@ -12,6 +12,7 @@ const FuelStatus = () => {
   const [formData, setFormData] = useState({});
   const [vehicles, setVehicles] = useState([]);
   const [fuels, setFuels] = useState([]);
+  const [error, setError] = useState(null); // Added error state
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -21,6 +22,7 @@ const FuelStatus = () => {
 
   const handleClosePopup = () => {
     setAddFuelModal(false);
+    setError(null); // Reset error when modal is closed
   };
 
   const handleChange = (e) => {
@@ -30,7 +32,7 @@ const FuelStatus = () => {
       setFormData({
         ...formData,
         vehicleId: selectedVehicle?._id || "",
-        vehicleName: selectedVehicle?.vehName || "", // Set vehicleName
+        vehicleName: selectedVehicle?.vehName || "",
       });
     } else {
       setFormData({ ...formData, [id]: value });
@@ -55,7 +57,6 @@ const FuelStatus = () => {
           toast.error("Failed to fetch vehicles");
         }
       };
-
       fetchVehicles();
     }
   }, [addFuelModal, currentUser._id]);
@@ -64,7 +65,7 @@ const FuelStatus = () => {
     const fetchFuels = async () => {
       try {
         const response = await fetch(
-          `/api/fuels/getFuels?userId=${currentUser._id}` // Updated endpoint
+          `/api/fuels/getFuels?userId=${currentUser._id}`
         );
         const data = await response.json();
         if (response.ok) {
@@ -81,7 +82,7 @@ const FuelStatus = () => {
     if (currentUser) {
       fetchFuels();
     }
-  }, [currentUser._id]);
+  }, [currentUser]);
 
   const handleAddFuelSubmit = async (e) => {
     e.preventDefault();
@@ -90,11 +91,10 @@ const FuelStatus = () => {
     try {
       const fuelData = {
         vehicleId: formData.vehicleId,
-        fuelQuantity: parseFloat(formData.fuelQuantity), // Ensure it is a number
-        fuelPrice: parseFloat(formData.fuelPrice), // Ensure it is a number
+        fuelQuantity: parseFloat(formData.fuelQuantity),
+        fuelPrice: parseFloat(formData.fuelPrice),
       };
 
-      // Add fuel data
       const response = await fetch("/api/fuels/create", {
         method: "POST",
         headers: {
@@ -105,13 +105,13 @@ const FuelStatus = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error adding fuel data");
+        setError(errorData.message || "Error adding fuel data"); // Set error
+        return;
       }
 
       toast.success("Fuel added successfully");
       setAddFuelModal(false);
       setFormData({});
-      // Refresh fuel data
       const newFuelsResponse = await fetch(
         `/api/fuels/getFuels?userId=${currentUser._id}`
       );
@@ -119,7 +119,7 @@ const FuelStatus = () => {
       setFuels(newFuelsData.fuels);
     } catch (error) {
       console.error("Error adding fuel data", error);
-      toast.error("Failed to add fuel data");
+      setError("Failed to add fuel data"); // Set error
     } finally {
       setLoading(false);
     }
@@ -186,21 +186,25 @@ const FuelStatus = () => {
         </div>
       </div>
       <Modal show={addFuelModal} onClose={handleClosePopup} popup size="md">
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-[#393E46] rounded-lg shadow-lg p-6 relative">
-            <h2 className="text-2xl font-semibold mb-4 text-white">
+        <Modal.Header className="bg-gray-700 rounded-t-lg" />
+        <Modal.Body className="bg-gray-700 rounded-b-lg">
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-[#eee]">
               Add Fuel Info
             </h2>
             <form onSubmit={handleAddFuelSubmit} className="space-y-4">
-              <div className="flex flex-col">
-                <label htmlFor="vehicleId" className="text-white text-sm mb-2">
+              <div className="mb-4">
+                <label
+                  htmlFor="vehicleId"
+                  className="block text-gray-300 text-sm font-normal mb-2"
+                >
                   Select Vehicle:
                 </label>
                 <select
                   id="vehicleId"
                   value={formData.vehicleId || ""}
                   onChange={handleChange}
-                  className="p-2 border rounded-lg bg-[#333] text-white"
+                  className="w-full p-2 border rounded-lg bg-[#333] text-white focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
                   required
                 >
                   <option value="">Select a vehicle</option>
@@ -211,10 +215,10 @@ const FuelStatus = () => {
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col">
+              <div className="mb-4">
                 <label
                   htmlFor="fuelQuantity"
-                  className="text-white text-sm mb-2"
+                  className="block text-gray-300 text-sm font-normal mb-2"
                 >
                   Fuel Quantity (liters):
                 </label>
@@ -223,12 +227,15 @@ const FuelStatus = () => {
                   id="fuelQuantity"
                   value={formData.fuelQuantity || ""}
                   onChange={handleChange}
-                  className="p-2 border rounded-lg bg-[#333] text-white"
+                  className="w-full p-2 border rounded-lg bg-[#333] text-white focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
                   required
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="fuelPrice" className="text-white text-sm mb-2">
+              <div className="mb-4">
+                <label
+                  htmlFor="fuelPrice"
+                  className="block text-gray-300 text-sm font-normal mb-2"
+                >
                   Fuel Price:
                 </label>
                 <input
@@ -236,22 +243,34 @@ const FuelStatus = () => {
                   id="fuelPrice"
                   value={formData.fuelPrice || ""}
                   onChange={handleChange}
-                  className="p-2 border rounded-lg bg-[#333] text-white"
+                  className="w-full p-2 border rounded-lg bg-[#333] text-white focus:outline-none focus:ring-2 focus:ring-[#B1B500]"
                   required
                 />
               </div>
               <div className="flex justify-end">
                 <Button
+                  type="button"
+                  onClick={handleClosePopup}
+                  className="mr-4 bg-teal-600 text-white rounded-lg border-none"
+                >
+                  Cancel
+                </Button>
+                <Button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#B1B500] text-white px-4 py-2 rounded-lg"
+                  className="bg-[#B1B500] text-white rounded-lg border-none"
                 >
                   {loading ? "Saving..." : "Save"}
                 </Button>
               </div>
+              {error && (
+                <p className="text-red-500 mt-2">
+                  Failed to add fuel info. Please try again.
+                </p>
+              )}
             </form>
           </div>
-        </div>
+        </Modal.Body>
       </Modal>
     </div>
   );

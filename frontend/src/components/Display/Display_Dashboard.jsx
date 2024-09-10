@@ -134,7 +134,7 @@ const Display_Dashboard = () => {
         </div>
         <p className="font-medium text-2xl mt-1">Rs {totalExpenses}</p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
-          <span className="text-green-400">+15% </span>from last month
+          <span className="text-green-400">+10% </span>from last month
         </p>
       </div>
 
@@ -149,7 +149,7 @@ const Display_Dashboard = () => {
           {totalRevenue - totalExpenses}
         </p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
-          <span className="text-green-400">+15% </span>from last month
+          <span className="text-green-400">+20% </span>from last month
         </p>
       </div>
 
