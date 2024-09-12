@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import {
   FaBox,
+  FaChartArea,
   FaChartBar,
   FaGasPump,
   FaSignOutAlt,
@@ -29,7 +30,7 @@ const Dashboard_Sidebar = () => {
   };
 
   const handleItemClick = (item) => {
-    dispatch(setActivePage(item)); // Dispatch the action to update the active page in Redux
+    dispatch(setActivePage(item));
   };
 
   return (
@@ -90,6 +91,19 @@ const Dashboard_Sidebar = () => {
         >
           <FaGasPump />
           <p>Fuel</p>
+        </div>
+      </Link>
+      <div className="border-t border-[#c5c6c850] my-4 mr-6"></div>
+
+      <Link to="/dashboard?tab=report">
+        <div
+          className={`flex flex-row gap-4 items-center cursor-pointer ${
+            activeItem === "Report" ? "text-[#F8BD00]" : ""
+          }`}
+          onClick={() => handleItemClick("Report")}
+        >
+          <FaChartArea />
+          <p>Report</p>
         </div>
       </Link>
       <div className="flex-grow"></div>
