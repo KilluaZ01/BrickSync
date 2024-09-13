@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import { Spinner } from "flowbite-react"; // Import Flowbite Spinner
 import "react-toastify/dist/ReactToastify.css";
 
 const Display_Inventory = () => {
@@ -8,6 +9,7 @@ const Display_Inventory = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [action, setAction] = useState("restock");
+  const [loading, setLoading] = useState(true); // Initialize loading as true
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,6 +24,8 @@ const Display_Inventory = () => {
       } catch (error) {
         console.error("Error fetching inventory data", error);
         toast.error("Error fetching inventory data");
+      } finally {
+        setLoading(false); // Stop loading once the fetch is complete
       }
     };
 
@@ -65,6 +69,15 @@ const Display_Inventory = () => {
       toast.error(`Failed to ${action} product: ${error.message}`);
     }
   };
+
+  // Show spinner while loading
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Spinner color="gray" size="xl" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4">

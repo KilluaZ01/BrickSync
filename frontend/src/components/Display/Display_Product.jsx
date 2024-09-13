@@ -3,7 +3,7 @@ import { IoAddOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setCurrentProduct } from "../../redux/product/productSlice";
-import { Modal, Button } from "flowbite-react";
+import { Modal, Button, Spinner } from "flowbite-react"; // Import Spinner here
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +12,7 @@ const Display_Product = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Initialize loading as true
   const [userProducts, setUserProducts] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -36,6 +36,8 @@ const Display_Product = () => {
         }
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
       }
     };
     if (currentUser) {
@@ -188,6 +190,15 @@ const Display_Product = () => {
       toast.error("Error deleting product.");
     }
   };
+
+  // Spinner for loading
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Spinner color="gray" size="xl" />
+      </div>
+    );
+  }
 
   return (
     <div className="px-6 py-7 flex flex-col">

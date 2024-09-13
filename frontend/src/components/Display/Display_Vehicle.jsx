@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentVehicle } from "../../redux/vehicle/vehicleSlice";
-import { Modal, Button } from "flowbite-react";
+import { Modal, Button, Spinner } from "flowbite-react"; // Import Flowbite Spinner
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,7 +11,7 @@ const Display_Vehicle = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Initialize loading as true
   const [userVehicles, setUserVehicles] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +20,6 @@ const Display_Vehicle = () => {
   const [showEditModal, setShowEditModal] = useState(false);
 
   const dispatch = useDispatch();
-
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -36,6 +35,8 @@ const Display_Vehicle = () => {
       } catch (error) {
         toast.error("Failed to fetch vehicles");
         console.log(error.message);
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
       }
     };
     if (currentUser) {
@@ -187,6 +188,15 @@ const Display_Vehicle = () => {
       console.log(error.message);
     }
   };
+
+  // Show spinner while loading
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Spinner color="gray" size="xl" />
+      </div>
+    );
+  }
 
   return (
     <div className="px-6 py-7 flex flex-col">

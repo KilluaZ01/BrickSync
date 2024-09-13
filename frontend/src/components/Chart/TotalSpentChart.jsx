@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Spinner } from "flowbite-react";
 
 ChartJS.register(
   CategoryScale,
@@ -21,10 +22,12 @@ ChartJS.register(
 
 const TotalSpentChart = ({ currentUser }) => {
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true); // Start loading
         const response = await fetch(
           `/api/fuels/total-spent-per-vehicle?userId=${currentUser._id}`
         );
@@ -50,6 +53,8 @@ const TotalSpentChart = ({ currentUser }) => {
         }
       } catch (error) {
         console.error("Error fetching total spent data", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
@@ -58,46 +63,52 @@ const TotalSpentChart = ({ currentUser }) => {
     }
   }, [currentUser]);
 
-  if (!chartData) {
-    return <p>Loading chart data...</p>;
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Spinner color="gray" size="xl" />
+      </div>
+    );
   }
 
   return (
     <div className="h-full w-auto p-2">
-      <Bar
-        data={chartData}
-        options={{
-          maintainAspectRatio: false,
-          indexAxis: "y", // Horizontal bar chart
-          plugins: {
-            legend: {
-              position: "top",
-            },
-            tooltip: {
-              callbacks: {
-                label: (context) => {
-                  return `Total Spent: Rs ${context.raw}`;
+      {chartData && (
+        <Bar
+          data={chartData}
+          options={{
+            maintainAspectRatio: false,
+            indexAxis: "y", // Horizontal bar chart
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context) => {
+                    return `Total Spent: Rs ${context.raw}`;
+                  },
                 },
               },
             },
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: "Total Money Spent",
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Total Money Spent",
+                },
+                beginAtZero: true,
               },
-              beginAtZero: true,
-            },
-            y: {
-              title: {
-                display: true,
-                text: "Vehicle Name",
+              y: {
+                title: {
+                  display: true,
+                  text: "Vehicle Name",
+                },
               },
             },
-          },
-        }}
-      />
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Modal, Button } from "flowbite-react";
+import { Modal, Button, Spinner } from "flowbite-react"; // Import Flowbite Spinner
 import React, { useState, useEffect } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
@@ -8,11 +8,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 const FuelStatus = () => {
   const [addFuelModal, setAddFuelModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for fuel addition
+  const [dataLoading, setDataLoading] = useState(true); // Loading state for fetching data
   const [formData, setFormData] = useState({});
   const [vehicles, setVehicles] = useState([]);
   const [fuels, setFuels] = useState([]);
-  const [error, setError] = useState(null); // Added error state
+  const [error, setError] = useState(null); // Error state
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -22,7 +23,7 @@ const FuelStatus = () => {
 
   const handleClosePopup = () => {
     setAddFuelModal(false);
-    setError(null); // Reset error when modal is closed
+    setError(null); // Reset error when closing the modal
   };
 
   const handleChange = (e) => {
@@ -39,6 +40,7 @@ const FuelStatus = () => {
     }
   };
 
+  // Fetch vehicles when modal is opened
   useEffect(() => {
     if (addFuelModal) {
       const fetchVehicles = async () => {
@@ -61,6 +63,7 @@ const FuelStatus = () => {
     }
   }, [addFuelModal, currentUser._id]);
 
+  // Fetch fuels on initial load
   useEffect(() => {
     const fetchFuels = async () => {
       try {
@@ -76,6 +79,8 @@ const FuelStatus = () => {
       } catch (error) {
         console.error("Error fetching fuels", error);
         toast.error("Failed to fetch fuel data");
+      } finally {
+        setDataLoading(false); // Stop data loading after fetching
       }
     };
 
@@ -86,7 +91,7 @@ const FuelStatus = () => {
 
   const handleAddFuelSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true); // Start loading during form submission
 
     try {
       const fuelData = {
@@ -105,13 +110,14 @@ const FuelStatus = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.message || "Error adding fuel data"); // Set error
+        setError(errorData.message || "Error adding fuel data");
         return;
       }
 
       toast.success("Fuel added successfully");
       setAddFuelModal(false);
       setFormData({});
+      // Refresh fuels list
       const newFuelsResponse = await fetch(
         `/api/fuels/getFuels?userId=${currentUser._id}`
       );
@@ -119,9 +125,9 @@ const FuelStatus = () => {
       setFuels(newFuelsData.fuels);
     } catch (error) {
       console.error("Error adding fuel data", error);
-      setError("Failed to add fuel data"); // Set error
+      setError("Failed to add fuel data");
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading after form submission
     }
   };
 
@@ -146,9 +152,16 @@ const FuelStatus = () => {
           </button>
         </div>
       </div>
+
+      {/* Main content */}
       <div className="grid lg:grid-cols-4 lg:grid-rows-4 grid-cols-1 gap-4 h-full">
-        <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-1 lg:row-span-4 col-span-1 row-span-1 flex flex-col overflow-y-auto scroll-hidden">
-          {fuels.length > 0 ? (
+        {/* Fuel Records List */}
+        <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-1 lg:row-span-4 col-span-1 row-span-1 flex flex-col overflow-y-auto">
+          {dataLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <Spinner size="lg" color="gray" />
+            </div>
+          ) : fuels.length > 0 ? (
             <div className="grid grid-cols-1 gap-4 max-h-96 overflow-y-auto no-scrollbar">
               {fuels.map((fuel) => (
                 <div
@@ -181,10 +194,13 @@ const FuelStatus = () => {
           )}
         </div>
 
+        {/* TotalSpentChart Component */}
         <div className="bg-[#222831] p-4 rounded-lg shadow-lg lg:col-span-3 lg:row-span-4 col-span-1 row-span-1 hidden lg:block">
           <TotalSpentChart currentUser={currentUser} />
         </div>
       </div>
+
+      {/* Modal for Adding Fuel Info */}
       <Modal show={addFuelModal} onClose={handleClosePopup} popup size="md">
         <Modal.Header className="bg-gray-700 rounded-t-lg" />
         <Modal.Body className="bg-gray-700 rounded-b-lg">
@@ -193,6 +209,7 @@ const FuelStatus = () => {
               Add Fuel Info
             </h2>
             <form onSubmit={handleAddFuelSubmit} className="space-y-4">
+              {/* Vehicle Selector */}
               <div className="mb-4">
                 <label
                   htmlFor="vehicleId"
@@ -215,6 +232,7 @@ const FuelStatus = () => {
                   ))}
                 </select>
               </div>
+              {/* Fuel Quantity Input */}
               <div className="mb-4">
                 <label
                   htmlFor="fuelQuantity"
@@ -231,6 +249,7 @@ const FuelStatus = () => {
                   required
                 />
               </div>
+              {/* Fuel Price Input */}
               <div className="mb-4">
                 <label
                   htmlFor="fuelPrice"
@@ -247,6 +266,7 @@ const FuelStatus = () => {
                   required
                 />
               </div>
+              {/* Form Actions */}
               <div className="flex justify-end">
                 <Button
                   type="button"
@@ -260,14 +280,11 @@ const FuelStatus = () => {
                   disabled={loading}
                   className="bg-[#B1B500] text-white rounded-lg border-none"
                 >
-                  {loading ? "Saving..." : "Save"}
+                  {loading ? <Spinner color="gray" size="sm" /> : "Save"}
                 </Button>
               </div>
-              {error && (
-                <p className="text-red-500 mt-2">
-                  Failed to add fuel info. Please try again.
-                </p>
-              )}
+              {/* Error Message */}
+              {error && <p className="text-red-500 mt-2">{error}</p>}
             </form>
           </div>
         </Modal.Body>
