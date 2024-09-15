@@ -51,6 +51,7 @@ const Display_Vehicle = () => {
       vehNumber: vehicle.vehNumber,
       vehCategory: vehicle.vehCategory,
     });
+    setVehicleIdToEdit(vehicle._id);
     setShowEditModal(true);
   };
 

@@ -70,24 +70,13 @@ export const updateVehicle = async (req, res, next) => {
       req.params.vehicleId,
       {
         $set: {
-          name: req.body.name,
-          description: req.body.description,
-          quantity: req.body.quantity,
-          price: req.body.price,
+          vehName: req.body.vehName,
+          vehNumber: req.body.vehNumber,
+          vehCategory: req.body.vehCategory,
         },
       },
       { new: true }
     );
-
-    // Log the transaction
-    const transaction = new Transaction({
-      entityName: updatedVehicle.name,
-      entityType: "Vehicle",
-      transactionType: "Update", // Assuming this is an update event
-      amount: req.body.price * req.body.quantity, // Log price * quantity
-    });
-    await transaction.save();
-
     res.status(200).json(updatedVehicle);
   } catch (error) {
     next(error);
