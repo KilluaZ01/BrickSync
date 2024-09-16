@@ -80,8 +80,8 @@ const Display_Inventory = () => {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Inventory Management</h2>
+    <div className="px-4 py-6">
+      <h1 className="font-semibold text-2xl pb-4">Inventory</h1>
 
       <select
         value={productId}
@@ -132,7 +132,7 @@ const Display_Inventory = () => {
         {action === "restock" ? "Restock Product" : "Sell Product"}
       </button>
 
-      <table className="min-w-full divide-y mt-6 divide-gray-600 shadow-md rounded-lg overflow-hidden">
+      <table className="min-w-full divide-y mt-4 divide-gray-600 shadow-md rounded-lg overflow-hidden">
         <thead className="bg-gray-900">
           <tr>
             <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider">

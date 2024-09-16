@@ -26,7 +26,7 @@ export const getDailyFinancialSummary = async (req, res, next) => {
       {
         $group: {
           _id: {
-            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+            $dateToString: { format: "%m-%d", date: "$createdAt" },
           },
           totalExpenses: {
             $sum: {

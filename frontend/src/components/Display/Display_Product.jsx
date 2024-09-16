@@ -201,7 +201,7 @@ const Display_Product = () => {
   }
 
   return (
-    <div className="px-6 py-7 flex flex-col">
+    <div className="px-4 py-6 flex flex-col">
       <ToastContainer />
       <div className="flex flex-row justify-between">
         <div>
@@ -301,7 +301,7 @@ const Display_Product = () => {
         </div>
       )}
       {userProducts.length > 0 ? (
-        <table className="min-w-full divide-y mt-6 divide-gray-600 shadow-md rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y mt-4 divide-gray-600 shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-900">
             <tr>
               <th className="px-6 py-3 text-left text-sm font-semibold text-[#B1B500] tracking-wider rounded-tl-lg">

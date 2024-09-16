@@ -132,7 +132,7 @@ const FuelStatus = () => {
   };
 
   return (
-    <div className="h-full px-6 py-7 flex flex-col">
+    <div className="h-full px-4 py-6 flex flex-col">
       <ToastContainer />
       <div className="flex flex-row justify-between mb-4">
         <div>

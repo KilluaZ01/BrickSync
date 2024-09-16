@@ -200,7 +200,7 @@ const Display_Vehicle = () => {
   }
 
   return (
-    <div className="px-6 py-7 flex flex-col">
+    <div className="px-4 py-6 flex flex-col">
       <ToastContainer />
       <div className="flex flex-row justify-between">
         <div>
@@ -287,7 +287,7 @@ const Display_Vehicle = () => {
         </div>
       )}
       {/* Vehicle List */}
-      <div className="mt-6">
+      <div className="mt-4">
         {userVehicles.length > 0 ? (
           <div className="max-h-96 overflow-y-auto no-scrollbar">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
