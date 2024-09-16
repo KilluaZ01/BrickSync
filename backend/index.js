@@ -8,6 +8,7 @@ import vehicleRoutes from "./routes/vehicle.route.js";
 import fuelRoutes from "./routes/fuel.route.js";
 import inventoryRoutes from "./routes/inventory.routes.js";
 import transactionRoutes from "./routes/transaction.route.js";
+import financialChartRoutes from "./routes/financialChart.route.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/fuels", fuelRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/transaction", transactionRoutes);
+app.use("/api/financial", financialChartRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
