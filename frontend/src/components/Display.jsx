@@ -8,7 +8,7 @@ import Display_Fuel from "./Display/Display_Fuel";
 import Display_Report from "./Display/Display_Report";
 
 const Display = () => {
-  const activePage = useSelector((state) => state.navigation.activePage); // Get the active page from Redux
+  const activePage = useSelector((state) => state.navigation.activePage);
 
   return (
     <div className="bg-[#262D37] h-full w-[80%] rounded text-white">

@@ -70,15 +70,13 @@ const Login = () => {
             />
             <input
               type="password"
-              className="mb-1 bg-[#374151] border-none text-[#eee] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              className="mb-6 bg-[#374151] border-none text-[#eee] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Password"
               required
               id="password"
               onChange={handleChange}
             />
-            <p className="forgot underline flex text-[12px] justify-end mb-5">
-              Forgot password?
-            </p>
+
             <button disabled={loading} className="login-btn mb-1 text-sm">
               {loading ? "Loading" : "Login"}
             </button>
@@ -95,10 +93,7 @@ const Login = () => {
               </p>
               <div className="flex-grow border-t border-[#ededed80] mx-4px"></div>
             </div>
-            <button className="flex flex-row justify-center gap-3 items-center text-sm w-full mb-3 p-[0.6rem] bg-[#4267B2] text-[#eee] rounded-[10px] ">
-              <img className="w-5" src={assets.facebook_icon1} alt="" />
-              Continue with Facebook
-            </button>
+
             <OAuth />
           </form>
         </div>

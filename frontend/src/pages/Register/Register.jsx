@@ -54,7 +54,7 @@ const Register = () => {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              className="mb-3 border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-3 bg-[#374151] border-none text-[#eee] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Username"
               id="username"
               required
@@ -62,7 +62,7 @@ const Register = () => {
             />
             <input
               type="email"
-              className="mb-3 border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-3 bg-[#374151] border-none text-[#eee] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Email"
               required
               id="email"
@@ -70,7 +70,7 @@ const Register = () => {
             />
             <input
               type="password"
-              className="mb-3 border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="mb-6 bg-[#374151] border-none text-[#eee] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="Password"
               required
               id="password"
@@ -95,10 +95,7 @@ const Register = () => {
               </p>
               <div className="flex-grow border-t border-[#ededed80] mx-4px"></div>
             </div>
-            <button className="flex flex-row justify-center gap-3 items-center text-sm w-full mb-3 p-[0.6rem] bg-[#4267B2] text-[#eee] rounded-[10px] ">
-              <img className="w-5" src={assets.facebook_icon1} alt="" />
-              Continue with Facebook
-            </button>
+
             <OAuth />
           </form>
         </div>
