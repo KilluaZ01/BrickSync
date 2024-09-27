@@ -82,6 +82,14 @@ const Display_Inventory = () => {
   return (
     <div className="px-4 py-6">
       <h1 className="font-semibold text-2xl pb-4">Inventory</h1>
+      <select
+        value={action}
+        onChange={(e) => setAction(e.target.value)}
+        className="mb-4 p-2 border text-slate-600"
+      >
+        <option value="restock">Restock</option>
+        <option value="sell">Sell</option>
+      </select>
 
       <select
         value={productId}
@@ -115,15 +123,6 @@ const Display_Inventory = () => {
           className="mb-4 p-2 border text-slate-600"
         />
       )}
-
-      <select
-        value={action}
-        onChange={(e) => setAction(e.target.value)}
-        className="mb-4 p-2 border text-slate-600"
-      >
-        <option value="restock">Restock</option>
-        <option value="sell">Sell</option>
-      </select>
 
       <button
         onClick={handleRestockOrSell}

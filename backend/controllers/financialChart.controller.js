@@ -31,20 +31,10 @@ export const getDailyFinancialSummary = async (req, res, next) => {
           totalExpenses: {
             $sum: {
               $cond: [
-                { $eq: ["$transactionType", "Sale"] },
-                { $eq: ["$transactionType", "Fuel"] },
-                "$amount",
-                0,
-              ],
-            },
-          },
-          totalExpenses: {
-            $sum: {
-              $cond: [
                 {
                   $or: [
-                    { $eq: ["$transactionType", "expense"] },
-                    { $eq: ["$transactionType", "Fuel"] }, // Include "Fuel" in the expense sum
+                    { $eq: ["$transactionType", "Sale"] },
+                    { $eq: ["$transactionType", "Fuel"] },
                   ],
                 },
                 "$amount",

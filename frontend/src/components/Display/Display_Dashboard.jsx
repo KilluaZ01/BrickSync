@@ -146,7 +146,7 @@ const Display_Dashboard = () => {
           <TbMoneybag className="text-xl text-blue-400" />
         </div>
         <p className="font-medium text-2xl mt-1">
-          {totalRevenue - totalExpenses}
+          Rs {totalRevenue - totalExpenses}
         </p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
           <span className="text-green-400">+20% </span>from last month
