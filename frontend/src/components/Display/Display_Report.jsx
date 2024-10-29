@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import VehicleChart from "../Chart/VehicleChart";
-import PieChart from "../Chart/DonutChart";
 import LineChart from "../Chart/FinancialChart";
 import ProfitChart from "../Chart/ProfitChart";
 import jsPDF from "jspdf";
