@@ -5,6 +5,7 @@ import ProfitChart from "../Chart/ProfitChart";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { IoDownload } from "react-icons/io5";
+import CumulativeCashFlowChart from "../Chart/CumulativeCashFlowChart";
 
 const Display_Report = () => {
   const reportRef = useRef(); // Reference to the report section
