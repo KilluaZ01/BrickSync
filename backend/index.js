@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors"; // import cors
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import productRoutes from "./routes/product.route.js";
@@ -23,6 +24,15 @@ mongoose
   });
 
 const app = express();
+
+// CORS configuration
+app.use(
+  cors({
+    origin: "https://brick-sync-2wozeazjt-arik-rais-projects.vercel.app", // allow your frontend domain
+    methods: ["GET", "POST"], // specify the allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // specify allowed headers
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
