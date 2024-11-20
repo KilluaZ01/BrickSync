@@ -24,7 +24,10 @@ const Login = () => {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch("/api/auth/signin", {
+
+      // Use the environment variable for the API URL
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000"; // Default to localhost if not set
+      const res = await fetch(`${apiUrl}/api/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,10 +38,10 @@ const Login = () => {
       const data = await res.json();
 
       if (data.success === false) {
-        const data = await res.json();
         dispatch(signInFailure(data.message));
         return;
       }
+
       dispatch(signInSuccess(data));
       navigate("/dashboard");
     } catch (error) {
