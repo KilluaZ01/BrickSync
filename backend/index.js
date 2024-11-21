@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from "cors";
+import cors from "cors"; // import cors
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import productRoutes from "./routes/product.route.js";
@@ -25,14 +25,22 @@ mongoose
 
 const app = express();
 
-// CORS configuration
-app.use(
-  cors({
-    origin: "https://brick-sync-2wozeazjt-arik-rais-projects.vercel.app", // allow your frontend domain
-    methods: ["GET", "POST"], // specify the allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"], // specify allowed headers
-  })
-);
+// Dynamically allow origins with wildcard subdomains
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow non-browser requests like Postman
+    const allowedPattern = /^https:\/\/brick-sync-[\w-]+\.vercel\.app$/; // Regex for wildcard matching
+    if (allowedPattern.test(origin)) {
+      callback(null, true); // Allow request if origin matches the pattern
+    } else {
+      callback(new Error("Not allowed by CORS")); // Block if it doesn't match
+    }
+  },
+  methods: ["GET", "POST"], // Allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
