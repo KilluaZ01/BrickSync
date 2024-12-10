@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TbDeviceAnalytics, TbMoneybag } from "react-icons/tb";
 import { PiMoney, PiPackage, PiTruck } from "react-icons/pi";
-import StockAlertChart from "../Chart/StockAlertChart";
 import { useSelector } from "react-redux";
 import { Spinner } from "flowbite-react";
 
@@ -12,7 +11,6 @@ const Display_Dashboard = () => {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
 
-  // Fetch total revenue
   useEffect(() => {
     const fetchTotalRevenue = async () => {
       try {
@@ -34,9 +32,8 @@ const Display_Dashboard = () => {
     if (currentUser) {
       fetchTotalRevenue();
     }
-  }, [currentUser]);
+  }, [currentUser._id]);
 
-  // Fetch total expenses
   useEffect(() => {
     const fetchTotalExpenses = async () => {
       try {
@@ -54,13 +51,11 @@ const Display_Dashboard = () => {
         toast.error("Failed to fetch total expenses");
       }
     };
-
     if (currentUser) {
       fetchTotalExpenses();
     }
-  }, [currentUser]);
+  }, [currentUser._id]);
 
-  // Fetch transactions
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -70,18 +65,17 @@ const Display_Dashboard = () => {
           setTransactions(data.transactions);
         }
       } catch (error) {
-        console.error("Error fetching transactions", error);
+        console.log(error.message);
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false after fetching data
       }
     };
 
     if (currentUser) {
       fetchTransactions();
     }
-  }, [currentUser]);
+  }, [currentUser._id]);
 
-  // Function to get color for transaction types
   const getColor = (transactionType) => {
     switch (transactionType) {
       case "Sale":
@@ -95,7 +89,6 @@ const Display_Dashboard = () => {
     }
   };
 
-  // Function to get the icon for transaction types
   const getIcon = (transactionType) => {
     switch (transactionType) {
       case "Sale":
@@ -108,7 +101,6 @@ const Display_Dashboard = () => {
     }
   };
 
-  // Return loading spinner if data is being fetched
   if (loading) {
     return (
       <div className="h-full flex items-center justify-center">
@@ -119,7 +111,6 @@ const Display_Dashboard = () => {
 
   return (
     <div className="h-full grid grid-cols-9 grid-rows-6 gap-2 p-2">
-      {/* Total Revenue */}
       <div className="col-span-3 row-span-2 bg-[#22283177] rounded-lg p-5 border-[1.5px] border-[#222831] flex flex-col">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-sm text-[#eeeeee77] mt-1">
@@ -133,7 +124,6 @@ const Display_Dashboard = () => {
         </p>
       </div>
 
-      {/* Total Expenses */}
       <div className="col-span-3 row-span-2 bg-[#22283177] rounded-lg p-5 border-[1.5px] border-[#222831] flex flex-col">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-sm text-[#eeeeee77] mt-1">
@@ -147,7 +137,6 @@ const Display_Dashboard = () => {
         </p>
       </div>
 
-      {/* Total Profit */}
       <div className="col-span-3 row-span-2 bg-[#22283177] rounded-lg p-5 border-[1.5px] border-[#222831] flex flex-col">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-sm text-[#eeeeee77] mt-1">
@@ -156,14 +145,13 @@ const Display_Dashboard = () => {
           <TbMoneybag className="text-xl text-blue-400" />
         </div>
         <p className="font-medium text-2xl mt-1">
-          Rs {totalRevenue - totalExpenses}
+          {totalRevenue - totalExpenses}
         </p>
         <p className="mt-auto text-xs text-[#eeeeee77] font-normal">
           <span className="text-green-400">+20% </span>from last month
         </p>
       </div>
 
-      {/* Transaction History */}
       <div className="col-span-6 row-span-4 bg-[#22283177] rounded-lg p-5 border-[1.5px] border-[#222831]">
         <div className="mb-4">
           <h2 className="text-md font-normal">Transaction history</h2>
@@ -191,7 +179,7 @@ const Display_Dashboard = () => {
             <table className="min-w-full text-center">
               <tbody>
                 {transactions
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by date, latest first
                   .map((transaction, index) => (
                     <tr
                       key={index}
@@ -218,7 +206,6 @@ const Display_Dashboard = () => {
         </div>
       </div>
 
-      {/* Stock Alert */}
       <div className="col-span-3 row-span-4 bg-[#22283177] rounded-lg p-5 border-[1.5px] border-[#222831]">
         <div>
           <h2 className="text-md font-normal">Stock Alert</h2>

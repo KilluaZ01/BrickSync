@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
   loading: false,
-  error: false,
+  error: false, // Can also store error messages
 };
 
 const userSlice = createSlice({
@@ -12,6 +12,7 @@ const userSlice = createSlice({
   reducers: {
     signInStart: (state) => {
       state.loading = true;
+      state.error = false; // Reset error on new request
     },
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
@@ -20,10 +21,11 @@ const userSlice = createSlice({
     },
     signInFailure: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload || "Login failed. Please try again.";
     },
     updateUserStart: (state) => {
       state.loading = true;
+      state.error = false;
     },
     updateUserSuccess: (state, action) => {
       state.currentUser = action.payload;
@@ -32,10 +34,11 @@ const userSlice = createSlice({
     },
     updateUserFailure: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload || "Failed to update user.";
     },
     deleteUserStart: (state) => {
       state.loading = true;
+      state.error = false;
     },
     deleteUserSuccess: (state) => {
       state.currentUser = null;
@@ -44,12 +47,12 @@ const userSlice = createSlice({
     },
     deleteUserFailure: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload || "Failed to delete user.";
     },
     signOut: (state) => {
       state.currentUser = null;
       state.loading = false;
-      state.error = false;
+      state.error = false; // Clear error state
     },
   },
 });
@@ -58,12 +61,12 @@ export const {
   signInStart,
   signInSuccess,
   signInFailure,
-  updateUserFailure,
-  updateUserSuccess,
   updateUserStart,
-  deleteUserFailure,
+  updateUserSuccess,
+  updateUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  deleteUserFailure,
   signOut,
 } = userSlice.actions;
 
