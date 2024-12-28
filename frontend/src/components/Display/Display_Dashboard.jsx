@@ -67,7 +67,7 @@ const Display_Dashboard = () => {
       } catch (error) {
         console.log(error.message);
       } finally {
-        setLoading(false); // Set loading to false after fetching data
+        setLoading(false);
       }
     };
 
