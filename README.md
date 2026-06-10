@@ -111,9 +111,6 @@ npm run dev
 
 Open the frontend in the browser and authenticate to exercise protected endpoints.
 
-## Documentation
-This repository includes separate project documentation describing API contracts, UI flows and data models. See the project documentation folder or internal docs for detailed API request/response examples, sequence diagrams and UI component mapping.
-
 ## Tests
 No automated tests included in the initial submission. Add unit/integration tests (Jest, React Testing Library, Supertest) as needed.
 
@@ -124,4 +121,4 @@ No automated tests included in the initial submission. Add unit/integration test
 If you want, I can add a `docs/` folder with API examples and example requests/responses.
 
 ## Contact
-For questions about the implementation or to request specific README changes, open an issue or reach out to the project owner.
+For questions about the implementation or to request specific README changes, open an issue.
